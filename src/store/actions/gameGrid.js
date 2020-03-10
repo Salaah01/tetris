@@ -24,3 +24,22 @@ export const updateShapeUnitsCount = (currentCount, shapeSize) => {
     shapeSize: shapeSize
   };
 };
+
+export const updateGrid = newSubGrid => {
+  return {
+    type: actionTypes.UPDATE_GRID,
+    newSubGrid: newSubGrid
+  };
+};
+
+export const startDropNewBlock = () => {
+  return {
+    type: actionTypes.START_DROP_NEW_BLOCK
+  };
+};
+
+export const stopDropNewBlock = () => {
+  return {
+    type: actionTypes.STOP_DROP_NEW_BLOCK
+  };
+};

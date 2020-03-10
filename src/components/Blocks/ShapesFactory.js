@@ -12,7 +12,7 @@ class ShapeFactory extends Component {
   render() {
     switch (this.props.shape) {
       case "Square":
-        return <Square />;
+        return <Square col={this.props.col} row={this.props.row} />;
       default:
         console.error("Invalid shape");
     }

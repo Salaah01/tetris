@@ -13,8 +13,16 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../shared/utility";
 
 const initialState = {
-  shapeUnitsCount: 0
+  shapeUnitsCount: 0,
+  xMax: 20,
+  yMax: 20,
+  dropBlock: true,
+  grid: {}
 };
+
+for (let gridRow = 1; gridRow <= initialState.yMax; gridRow++) {
+  initialState.grid[`row${gridRow}`] = Array(initialState.yMax).fill(false);
+}
 
 const updateShapeUnitsCount = (state, action) => {
   /**Updates the shape units count. */
@@ -23,11 +31,30 @@ const updateShapeUnitsCount = (state, action) => {
   });
 };
 
+const updateGrid = (state, action) => {
+  const newGrid = updateObject(state.grid, action.newSubGrid);
+  return updateObject(state, newGrid);
+};
+
+const startDropNewBlock = state => {
+  return updateObject(state, { dropBlock: true });
+};
+
+const stopDropNewBlock = state => {
+  return updateObject(state, { dropBlock: false });
+};
+
 const reducer = (state = initialState, action) => {
   /**Redux reducer */
   switch (action.type) {
-    case actionTypes.UPDATE_SHAPE_ELEM_COUNT:
+    case actionTypes.UPDATE_SHAPE_UNITS_COUNT:
       return updateShapeUnitsCount(state, action);
+    case actionTypes.UPDATE_GRID:
+      return updateGrid(state, action);
+    case actionTypes.START_DROP_NEW_BLOCK:
+      return startDropNewBlock(state);
+    case actionTypes.STOP_DROP_NEW_BLOCK:
+      return stopDropNewBlock(state);
     default:
       return state;
   }
