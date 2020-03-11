@@ -3,36 +3,28 @@ import React, { Component } from "react";
 import classes from "./GameGrid.module.scss";
 
 // Local Imports
-import * as actions from '../../store/actions/index'
+import * as actions from "../../store/actions/index";
 import ShapeFactory from "../../components/Blocks/ShapesFactory";
 import { connect } from "react-redux";
 
-const newComponent = (props) => {
-  return <ShapeFactory shape="Square"/>
-}
+const newComponent = props => {
+  return <ShapeFactory shape="Square" />;
+};
 
-const l = []
+const l = [];
 
 class GameGrid extends Component {
-
   newComponent = () => {
-    return <ShapeFactory shape="Square"/>
-  }
+    return <ShapeFactory shape="Square" />;
+  };
 
   render() {
-
-    let shape = l
+    let shape = l;
     if (this.props.dropBlock) {
-      l.push(newComponent())
-
+      l.push(newComponent());
     }
 
-
-    return (
-      <div className={classes.GameGrid}>
-        {shape}
-      </div>
-    );
+    return <div className={classes.GameGrid}>{shape}</div>;
   }
 }
 

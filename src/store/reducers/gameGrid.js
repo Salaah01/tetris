@@ -32,8 +32,12 @@ const updateShapeUnitsCount = (state, action) => {
 };
 
 const updateGrid = (state, action) => {
-  const newGrid = updateObject(state.grid, action.newSubGrid);
-  return updateObject(state, newGrid);
+  // const newGrid = updateObject(state.grid, action.newSubGrid);
+  const stateCopy = { ...state };
+  const newGrid = { ...state.grid, ...action.newSubGrid };
+
+  stateCopy.grid = newGrid;
+  return stateCopy;
 };
 
 const startDropNewBlock = state => {
