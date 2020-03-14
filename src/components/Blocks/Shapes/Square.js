@@ -71,14 +71,14 @@ class SquareBlock extends Component {
     };
     newSubGrid[row1] = [
       ...newSubGrid[row1].slice(0, this.state.topLeft.x - 1),
-      true,
-      true,
+      'blue',
+      'yellow',
       ...newSubGrid[row1].slice(this.state.topRight.x)
     ];
     newSubGrid[row2] = [
       ...newSubGrid[row2].slice(0, this.state.bottomLeft.x - 1),
-      true,
-      true,
+      'pink',
+      'red',
       ...newSubGrid[row1].slice(this.state.bottomRight.x)
     ];
 

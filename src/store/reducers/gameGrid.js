@@ -24,6 +24,13 @@ for (let gridRow = 1; gridRow <= initialState.yMax; gridRow++) {
   initialState.grid[`row${gridRow}`] = Array(initialState.yMax).fill(false);
 }
 
+initialState.grid.row19[0] = 'green'
+initialState.grid.row19[8] = 'green'
+initialState.grid.row19[9] = 'green'
+initialState.grid.row19[10] = 'green'
+
+
+
 const updateShapeUnitsCount = (state, action) => {
   /**Updates the shape units count. */
   return updateObject(state, {
