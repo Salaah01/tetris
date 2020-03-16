@@ -14,7 +14,7 @@ import { updateObject, deepCopyGrid } from "../../shared/utility";
 
 const initialState = {
   shapeUnitsCount: 0,
-  xMax: 4,
+  xMax: 6,
   yMax: 20,
   dropBlock: true,
   grid: {}

@@ -7,6 +7,7 @@ import React, { Component } from "react";
 
 // Local Imports
 import Square from "./Shapes/Square";
+import ZShape from "./Shapes/ZShape";
 
 class ShapeFactory extends Component {
   colours = ["#2ecc71", "#3498db", "#9b59b6", "#e67e22", "#f1c40f", "#e74c3c"];
@@ -24,6 +25,15 @@ class ShapeFactory extends Component {
             colour={this.block_colour()}
           />
         );
+      case "ZShape":
+        return (
+          <ZShape
+            col={this.props.col}
+            row={this.props.row}
+            colour={this.block_colour()}
+          />
+        );
+
       default:
         console.error("Invalid shape");
     }

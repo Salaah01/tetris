@@ -8,7 +8,7 @@ import ShapeFactory from "../../components/Blocks/ShapesFactory";
 import { connect } from "react-redux";
 
 const newComponent = props => {
-  return <ShapeFactory shape="Square" />;
+  return <ShapeFactory shape="ZShape" />;
 };
 
 const l = [];
@@ -38,13 +38,12 @@ class GameGrid extends Component {
   };
 
   newComponent = () => {
-    return <ShapeFactory shape="Square" />;
+    return <ShapeFactory shape="ZShape" />;
   };
 
   render() {
     let shape = l;
     if (this.props.dropBlock) {
-      // l.push(newComponent());
       shape = newComponent();
     }
 
