@@ -10,26 +10,19 @@
 
 // Local Imports
 import * as actionTypes from "../actions/actionTypes";
-import { updateObject } from "../../shared/utility";
+import { updateObject, deepCopyGrid } from "../../shared/utility";
 
 const initialState = {
   shapeUnitsCount: 0,
-  xMax: 20,
+  xMax: 4,
   yMax: 20,
   dropBlock: true,
   grid: {}
 };
 
 for (let gridRow = 1; gridRow <= initialState.yMax; gridRow++) {
-  initialState.grid[`row${gridRow}`] = Array(initialState.yMax).fill(false);
+  initialState.grid[`row${gridRow}`] = Array(initialState.xMax).fill(false);
 }
-
-initialState.grid.row19[0] = 'green'
-initialState.grid.row19[8] = 'green'
-initialState.grid.row19[9] = 'green'
-initialState.grid.row19[10] = 'green'
-
-
 
 const updateShapeUnitsCount = (state, action) => {
   /**Updates the shape units count. */
@@ -55,8 +48,8 @@ const stopDropNewBlock = state => {
   return updateObject(state, { dropBlock: false });
 };
 
+/**Redux reducer */
 const reducer = (state = initialState, action) => {
-  /**Redux reducer */
   switch (action.type) {
     case actionTypes.UPDATE_SHAPE_UNITS_COUNT:
       return updateShapeUnitsCount(state, action);

@@ -59,6 +59,44 @@ class SquareBlock extends Component {
     }
   };
 
+  deleteRows = currentLocalGrid => {
+    /**Checks if a row is "full" and is full with block elements, if so
+     * remove that row and move each row above, down one row.
+     */
+    // For safety, a new grid is created though it is likely that the object
+    // can be mutated.
+    const grid = {
+      ...currentLocalGrid
+    };
+    const gridKeys = Object.keys(grid);
+    const reversedKeys = [...gridKeys];
+    const rowLength = grid[gridKeys[0]].length;
+    reversedKeys.reverse();
+
+    for (let colIdx = 0; colIdx < gridKeys.length; colIdx++) {
+      const colName = gridKeys[colIdx];
+
+      // Check if a row contains 0 "false" elements.
+      if (!grid[colName].filter(rowElem => rowElem === false).length) {
+        const reversedSubKeys = reversedKeys.slice(
+          reversedKeys.indexOf(colName)
+        );
+        console.log(reversedSubKeys);
+
+        for (let rskIdx = 0; rskIdx <= reversedSubKeys.length - 1; rskIdx++) {
+          if (reversedSubKeys[rskIdx + 1]) {
+            grid[reversedSubKeys[rskIdx]] = [
+              ...grid[reversedSubKeys[rskIdx + 1]]
+            ];
+          } else {
+            grid[reversedSubKeys[rskIdx]] = Array(rowLength).fill(false);
+          }
+        }
+      }
+    }
+    return grid;
+  };
+
   updateGridHandler = () => {
     /**Updates the grid in th redux store. */
     const currentRow = this.state.currentRow;
@@ -69,27 +107,37 @@ class SquareBlock extends Component {
       [row1]: [...this.state.grid[row1]],
       [row2]: [...this.state.grid[row2]]
     };
+
     newSubGrid[row1] = [
       ...newSubGrid[row1].slice(0, this.state.topLeft.x - 1),
-      'blue',
-      'yellow',
+      "blue",
+      "yellow",
       ...newSubGrid[row1].slice(this.state.topRight.x)
     ];
     newSubGrid[row2] = [
       ...newSubGrid[row2].slice(0, this.state.bottomLeft.x - 1),
-      'pink',
-      'red',
-      ...newSubGrid[row1].slice(this.state.bottomRight.x)
+      "pink",
+      "red",
+      ...newSubGrid[row2].slice(this.state.bottomRight.x)
     ];
 
-    this.setState(props => ({
-      grid: {
-        ...props.grid,
-        [row1]: newSubGrid[row1],
-        [row2]: newSubGrid[row2]
-      }
-    }));
-    this.props.onUpdateGrid(this.state.grid);
+    // Delete rows from the grid where the row is completely filled with
+    // block elements.
+    const grid = this.deleteRows({
+      ...this.state.grid,
+      [row1]: newSubGrid[row1],
+      [row2]: newSubGrid[row2]
+    });
+
+    this.setState(
+      props => ({
+        grid: {
+          ...props.grid,
+          ...grid
+        }
+      }),
+      () => this.props.onUpdateGrid(this.state.grid)
+    );
   };
 
   dropBlock = () => {
@@ -217,7 +265,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onUpdateGrid: newSubGrid => dispatch(actions.updateGrid(newSubGrid)),
     onStartDropNewBlock: () => dispatch(actions.startDropNewBlock()),
-    onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock())
+    onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock()),
+    onDeleteRow: () => dispatch(actions.deleteRow())
   };
 };
 

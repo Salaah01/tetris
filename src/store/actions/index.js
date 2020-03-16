@@ -1,1 +1,6 @@
-export { updateGrid, startDropNewBlock, stopDropNewBlock } from "./gameGrid";
+export {
+  updateGrid,
+  startDropNewBlock,
+  stopDropNewBlock,
+  deleteRow
+} from "./gameGrid";

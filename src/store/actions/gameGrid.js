@@ -43,3 +43,9 @@ export const stopDropNewBlock = () => {
     type: actionTypes.STOP_DROP_NEW_BLOCK
   };
 };
+
+export const deleteRow = () => {
+  return {
+    type: actionTypes.DELETE_ROW
+  };
+};
