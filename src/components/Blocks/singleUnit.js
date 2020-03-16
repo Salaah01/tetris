@@ -6,7 +6,11 @@ import classes from "./singleUnit.module.scss";
 const blockUnit = props => (
   <div
     className={classes.BlockUnit}
-    style={{ gridRow: `row ${props.row}`, gridColumn: `col ${props.col}` }}
+    style={{
+      gridRow: `row ${props.row}`,
+      gridColumn: `col ${props.col}`,
+      backgroundColor: props.colour
+    }}
   ></div>
 );
 

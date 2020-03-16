@@ -110,14 +110,14 @@ class SquareBlock extends Component {
 
     newSubGrid[row1] = [
       ...newSubGrid[row1].slice(0, this.state.topLeft.x - 1),
-      "blue",
-      "yellow",
+      this.props.colour,
+      this.props.colour,
       ...newSubGrid[row1].slice(this.state.topRight.x)
     ];
     newSubGrid[row2] = [
       ...newSubGrid[row2].slice(0, this.state.bottomLeft.x - 1),
-      "pink",
-      "red",
+      this.props.colour,
+      this.props.colour,
       ...newSubGrid[row2].slice(this.state.bottomRight.x)
     ];
 
@@ -231,21 +231,25 @@ class SquareBlock extends Component {
           col={this.state.topRight.x}
           row={this.state.topRight.y}
           unit="topLeft"
+          colour={this.props.colour}
         />
         <SingleUnit
           col={this.state.topLeft.x}
           row={this.state.topRight.y}
           unit="topRight"
+          colour={this.props.colour}
         />
         <SingleUnit
           col={this.state.bottomLeft.x}
           row={this.state.bottomLeft.y}
           unit="bottomLeft"
+          colour={this.props.colour}
         />
         <SingleUnit
           col={this.state.bottomRight.x}
           row={this.state.bottomRight.y}
           unit="bottomRight"
+          colour={this.props.colour}
         />
       </Fragment>
     );

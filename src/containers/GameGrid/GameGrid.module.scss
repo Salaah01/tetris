@@ -1,7 +1,7 @@
 .GameGrid {
   width: 80%;
   height: 80vh;
-  background-color: cadetblue;
+  background-color: rgb(104, 105, 105);
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(20, [col] calc(100% / 20));
