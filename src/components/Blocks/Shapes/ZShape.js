@@ -24,6 +24,8 @@ class SquareBlock extends BaseShape {
     grid: { ...this.props.grid }
   };
 
+  bottomBlockUnits = () => [this.state.shape[2], this.state.shape[3]];
+
   componentDidMount() {
     /**Creates an interval where at iteration, a check to whether the block
      * can continue to drop further will take place, before dropping the block.
@@ -53,13 +55,24 @@ class SquareBlock extends BaseShape {
     if (nextRow > this.props.yMax) {
       return false;
     } else {
-      const nextGridRow = this.state.grid[`row${nextRow}`];
-      const nextGridColumns = nextGridRow.slice(
-        this.state.leftSide - 1,
-        this.state.rightSide
+      let nextGridRow = this.state.grid[`row${nextRow}`];
+      nextGridRow = [
+        this.state.grid[`row${this.state.currentRow}`],
+        this.state.grid[`row${nextRow}`]
+      ];
+      let nextGridPositions = this.bottomBlockUnits().map(
+        blockUnit => nextGridRow[blockUnit.x - 1]
       );
-      console.log(nextGridColumns)
-      return nextGridColumns.every(elem => !elem);
+
+      nextGridPositions = [
+        nextGridRow[0][this.state.shape[0].x - 1],
+        nextGridRow[0][this.state.shape[1].x - 1],
+        nextGridRow[1][this.state.shape[2].x - 1],
+        nextGridRow[1][this.state.shape[3].x - 1]
+      ];
+
+      console.log(nextGridRow, nextGridPositions, this.state.grid);
+      return nextGridPositions.every(elem => !elem);
     }
   };
 
@@ -85,7 +98,6 @@ class SquareBlock extends BaseShape {
         const reversedSubKeys = reversedKeys.slice(
           reversedKeys.indexOf(colName)
         );
-        console.log(reversedSubKeys);
 
         for (let rskIdx = 0; rskIdx <= reversedSubKeys.length - 1; rskIdx++) {
           if (reversedSubKeys[rskIdx + 1]) {
@@ -191,7 +203,6 @@ class SquareBlock extends BaseShape {
         blockUnit =>
           this.props.grid[`row${blockUnit.y}`][blockUnit.x + stepSizeX - 1]
       );
-      console.log(mapBlockToGrid);
 
       // Check if there is a block in the way.
       if (mapBlockToGrid.every(elem => !elem)) {
