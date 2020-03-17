@@ -3,43 +3,45 @@
 import React, { Component } from "react";
 
 class BaseShape extends Component {
-
-    componentDidMount() {
-        /**Creates an interval where at iteration, a check to whether the block
-         * can continue to drop further will take place, before dropping the block.
-         * If this returns false, then stop the sshoetIntervalFunction and update the
-         * state to cause another block to drop.
-         */
-        const dropBlockInterval = setInterval(() => {
-          if (this.shouldBlockDrop()) {
-            this.dropBlock();
-          } else {
-            clearInterval(dropBlockInterval);
-            // By quickly changing the state, can force a new update whilst
-            // avoiding an if check and dispatching an action to the store.
-            this.updateGridHandler();
-            this.props.onStopDropNewBlock();
-            this.props.onStartDropNewBlock();
-          }
-        }, 185);
+  componentDidMount() {
+    /**Creates an interval where at iteration, a check to whether the block
+     * can continue to drop further will take place, before dropping the block.
+     * If this returns false, then stop the sshoetIntervalFunction and update the
+     * state to cause another block to drop.
+     */
+    const dropBlockInterval = setInterval(() => {
+      if (this.shouldBlockDrop()) {
+        this.dropBlock();
+      } else {
+        clearInterval(dropBlockInterval);
+        // By quickly changing the state, can force a new update whilst
+        // avoiding an if check and dispatching an action to the store.
+        this.updateGridHandler();
+        this.props.onStopDropNewBlock();
+        this.props.onStartDropNewBlock();
       }
+    }, 185);
+  }
+
+  bottomBlockUnits = () => {
+    /**Abstract method */
+    throw ReferenceError(
+      "Implement bottomBlockUnits method in inheriting class."
+    );
+  };
 
   shouldBlockDrop = () => {
-    /**Return whether or not the block can drop another level.
-     * This is dependant on the yMax limit (the height of the container)
-     * and whether there is a block directly below.
-     */
-    const nextRow = this.state.currentRow + 1;
-    if (nextRow > this.props.yMax) {
-      return false;
-    } else {
-      const nextGridRow = this.state.grid[`row${nextRow}`];
-      const nextGridColumns = nextGridRow.slice(
-        this.state.topLeft.x - 1,
-        this.state.topRight.x
-      );
-      return nextGridColumns.every(elem => !elem);
-    }
+    /**Abstract method */
+    throw ReferenceError(
+      "Implement shouldBlockDrop method in the inheriting class"
+    );
+  };
+
+  updateGridHandler = () => {
+    /**Abstract method */
+    throw ReferenceError(
+      "Implement updateGridHandler method in the inheriting class with a call to deleteRows() to handle row deletions."
+    );
   };
 
   deleteRows = currentLocalGrid => {
@@ -64,7 +66,6 @@ class BaseShape extends Component {
         const reversedSubKeys = reversedKeys.slice(
           reversedKeys.indexOf(colName)
         );
-        console.log(reversedSubKeys);
 
         for (let rskIdx = 0; rskIdx <= reversedSubKeys.length - 1; rskIdx++) {
           if (reversedSubKeys[rskIdx + 1]) {
@@ -80,6 +81,17 @@ class BaseShape extends Component {
     return grid;
   };
 
+  dropBlock = () => {
+    /**Drops the block another level by updating the local state. */
+    this.setState(prevState => ({
+      shape: prevState.shape.map(blockUnit => ({
+        x: blockUnit.x,
+        y: blockUnit.y + 1
+      })),
+      currentRow: prevState.currentRow + 1
+    }));
+  };
+
   moveLeftHandler = () => {
     /**Moves the block left. */
     this._moveBlock("left");
@@ -88,6 +100,43 @@ class BaseShape extends Component {
   moveRightHandler = () => {
     /**Moves the block right. */
     this._moveBlock("right");
+  };
+
+  _moveBlock = direction => {
+    /**Moves the block either left or right if possible.
+     * A block will only move in either direction providing there are no
+     * obstructions, these include other blocks and walls.
+     * Args:
+     *    direction: (String['left', 'right]) The direction of movement.
+     */
+    let stepSizeX;
+    if (direction === "left") {
+      stepSizeX = -1;
+    } else {
+      stepSizeX = 1;
+    }
+
+    if (
+      (this.state.rightSide < this.props.xMax && direction === "right") ||
+      (this.state.leftSide > 1 && direction === "left")
+    ) {
+      const mapBlockToGrid = this.state.shape.map(
+        blockUnit =>
+          this.props.grid[`row${blockUnit.y}`][blockUnit.x + stepSizeX - 1]
+      );
+
+      // Check if there is a block in the way.
+      if (mapBlockToGrid.every(elem => !elem)) {
+        this.setState(prevState => ({
+          shape: prevState.shape.map(blockUnit => ({
+            x: blockUnit.x + stepSizeX,
+            y: blockUnit.y
+          })),
+          leftSide: prevState.leftSide + stepSizeX,
+          rightSide: prevState.rightSide + stepSizeX
+        }));
+      }
+    }
   };
 }
 
