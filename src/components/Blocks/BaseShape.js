@@ -81,6 +81,22 @@ class BaseShape extends Component {
     return grid;
   };
 
+  getShapeRightSide = () => {
+    /**Finds the far right side of the shape (x value.) */
+    return Math.max.apply(
+      null,
+      this.state.shape.map(elem => elem.x)
+    );
+  };
+
+  getShapeLeftSide = () => {
+    /**Finds the far right side of the shape (x value.) */
+    return Math.min.apply(
+      null,
+      this.state.shape.map(elem => elem.x)
+    );
+  };
+
   dropBlock = () => {
     /**Drops the block another level by updating the local state. */
     this.setState(prevState => ({
@@ -117,8 +133,8 @@ class BaseShape extends Component {
     }
 
     if (
-      (this.state.rightSide < this.props.xMax && direction === "right") ||
-      (this.state.leftSide > 1 && direction === "left")
+      (this.getShapeRightSide() < this.props.xMax && direction === "right") ||
+      (this.getShapeLeftSide() > 1 && direction === "left")
     ) {
       const mapBlockToGrid = this.state.shape.map(
         blockUnit =>

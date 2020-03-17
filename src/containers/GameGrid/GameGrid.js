@@ -8,7 +8,7 @@ import ShapeFactory from "../../components/Blocks/ShapesFactory";
 import { connect } from "react-redux";
 
 const newComponent = props => {
-  return <ShapeFactory shape="Square" />;
+  return <ShapeFactory shape="ZShape" />;
 };
 
 const l = [];
