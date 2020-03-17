@@ -9,7 +9,7 @@ import * as actions from "../../../store/actions/index";
 import SingleUnit from "../singleUnit";
 import BaseShape from "../BaseShape";
 
-class SquareBlock extends BaseShape {
+class ZBlock extends BaseShape {
   state = {
     shape: [
       { x: Math.floor(this.props.xMax / 2), y: 1 },
@@ -17,18 +17,9 @@ class SquareBlock extends BaseShape {
       { x: Math.floor(this.props.xMax / 2) + 1, y: 2 },
       { x: Math.floor(this.props.xMax / 2) + 2, y: 2 }
     ],
-    shape: [
-      { y: Math.floor(this.props.xMax / 2) + 1, x: 2 },
-      { y: Math.floor(this.props.xMax / 2) + 2, x: 2 },
-      { y: Math.floor(this.props.xMax / 2), x: 1 },
-      { y: Math.floor(this.props.xMax / 2) + 1, x: 1 }
-    ],
-    leftSide: Math.floor(this.props.xMax / 2),
-    rightSide: Math.floor(this.props.xMax / 2) + 2,
-    currentRow: 2,
     dropping: this.props.dropBlock,
     grid: { ...this.props.grid },
-    rotationFlag: false
+    rotationDeg: 0
   };
 
   bottomBlockUnits = () => [this.state.shape[2], this.state.shape[3]];
@@ -47,7 +38,7 @@ class SquareBlock extends BaseShape {
       return false;
     } else {
       const nextGridRow = [
-        this.state.grid[`row${this.state.currentRow}`],
+        this.state.grid[`row${this.getCurrentRow()}`],
         this.state.grid[`row${nextRow}`]
       ];
 
@@ -69,41 +60,39 @@ class SquareBlock extends BaseShape {
   rotationHandler = () => {
     /**Rotates the block 90 degrees if possible. */
     const localShapeState = [];
-    for (let elemIdx = 0; elemIdx <= this.state.shape.length; elemIdx++) {
+    for (let elemIdx = 0; elemIdx < this.state.shape.length; elemIdx++) {
       localShapeState.push({ ...this.state.shape[elemIdx] });
     }
-  };
+    switch (this.state.rotationDeg) {
+      case 0:
+        localShapeState[0].x += 1;
+        localShapeState[1].y += 1;
+        localShapeState[2].x -= 1;
+        localShapeState[3].x -= 2;
+        localShapeState[3].y += 1;
 
-  updateGridHandler = () => {
-    /**Updates the grid in th redux store. */
+        this.setState({
+          shape: localShapeState,
+          rotationDeg: 90
+        });
+        break;
 
-    // Create a copy of the grid
-    const newSubGrid = {};
-    for (const colName of Object.keys(this.state.grid)) {
-      newSubGrid[colName] = [...this.state.grid[colName]];
+      case 90:
+        localShapeState[0].x -= 1;
+        localShapeState[1].y -= 1;
+        localShapeState[2].x += 1;
+        localShapeState[3].x += 2;
+        localShapeState[3].y -= 1;
+
+        this.setState({
+          shape: localShapeState,
+          rotationDeg: 0
+        });
+        break;
+
+      default:
+        break;
     }
-
-    // Using the shape state, update the grid values with the colour of a
-    // block element occupying the spot.
-    for (let unitIdx = 0; unitIdx < this.state.shape.length; unitIdx++) {
-      newSubGrid[`row${this.state.shape[unitIdx].y}`][
-        this.state.shape[unitIdx].x - 1
-      ] = this.props.colour;
-    }
-
-    // Find and remove complete lines.
-    const grid = this.deleteRows({ ...this.state.grid, ...newSubGrid });
-
-    // Update local state and redux store.
-    this.setState(
-      props => ({
-        grid: {
-          ...props.grid,
-          ...grid
-        }
-      }),
-      () => this.props.onUpdateGrid(this.state.grid)
-    );
   };
 
   render() {
@@ -145,4 +134,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SquareBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(ZBlock);

@@ -44,6 +44,12 @@ class BaseShape extends Component {
     );
   };
 
+  rotationHandler = () => {
+    /**Method by default will not do anything, for components that need
+     * rotation to handled, this module needs to be overwritten.
+     */
+  };
+
   deleteRows = currentLocalGrid => {
     /**Checks if a row is "full" and is full with block elements, if so
      * remove that row and move each row above, down one row.
@@ -97,15 +103,54 @@ class BaseShape extends Component {
     );
   };
 
+  getCurrentRow = () => {
+    /**Returns the current row (closest to bottom) of the shape. */
+    return Math.max.apply(
+      null,
+      this.state.shape.map(elem => elem.y)
+    );
+  };
+
   dropBlock = () => {
     /**Drops the block another level by updating the local state. */
     this.setState(prevState => ({
       shape: prevState.shape.map(blockUnit => ({
         x: blockUnit.x,
         y: blockUnit.y + 1
-      })),
-      currentRow: prevState.currentRow + 1
+      }))
     }));
+  };
+
+  updateGridHandler = () => {
+    /**Updates the grid in the redux store and local state. */
+
+    // Create a copy of the grid
+    const newSubGrid = {};
+    for (const colName of Object.keys(this.state.grid)) {
+      newSubGrid[colName] = [...this.state.grid[colName]];
+    }
+
+    // Using the shape state, update the grid values with the colour of a
+    // block element occupying the spot.
+    for (let unitIdx = 0; unitIdx < this.state.shape.length; unitIdx++) {
+      newSubGrid[`row${this.state.shape[unitIdx].y}`][
+        this.state.shape[unitIdx].x - 1
+      ] = this.props.colour;
+    }
+
+    // Find and remove complete lines.
+    const grid = this.deleteRows({ ...this.state.grid, ...newSubGrid });
+
+    // Update local state and redux store.
+    this.setState(
+      props => ({
+        grid: {
+          ...props.grid,
+          ...grid
+        }
+      }),
+      () => this.props.onUpdateGrid(this.state.grid)
+    );
   };
 
   moveLeftHandler = () => {
