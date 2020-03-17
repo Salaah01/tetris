@@ -10,7 +10,7 @@
 
 // Local Imports
 import * as actionTypes from "../actions/actionTypes";
-import { updateObject, deepCopyGrid } from "../../shared/utility";
+import { updateObject } from "../../corefunctions";
 
 const initialState = {
   shapeUnitsCount: 0,
