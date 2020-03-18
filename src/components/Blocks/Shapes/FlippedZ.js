@@ -9,13 +9,13 @@ import * as actions from "../../../store/actions/index";
 import SingleUnit from "../singleUnit";
 import BaseShape from "../BaseShape";
 
-class ZBlock extends BaseShape {
+class FlippedZ extends BaseShape {
   state = {
     shape: [
-      { x: Math.floor(this.props.xMax / 2), y: 1 },
       { x: Math.floor(this.props.xMax / 2) + 1, y: 1 },
-      { x: Math.floor(this.props.xMax / 2) + 1, y: 2 },
-      { x: Math.floor(this.props.xMax / 2) + 2, y: 2 }
+      { x: Math.floor(this.props.xMax / 2) + 2, y: 1 },
+      { x: Math.floor(this.props.xMax / 2) + 0, y: 2 },
+      { x: Math.floor(this.props.xMax / 2) + 1, y: 2 }
     ],
     dropping: this.props.dropBlock,
     grid: { ...this.props.grid },
@@ -63,14 +63,16 @@ class ZBlock extends BaseShape {
     for (let elemIdx = 0; elemIdx < this.state.shape.length; elemIdx++) {
       localShapeState.push({ ...this.state.shape[elemIdx] });
     }
-
     switch (this.state.rotationDeg) {
       case 0:
         localShapeState[0].x += 1;
-        localShapeState[1].y += 1;
-        localShapeState[2].x -= 1;
-        localShapeState[3].x -= 2;
-        localShapeState[3].y += 1;
+        localShapeState[0].y += 1;
+        localShapeState[1].y += 2;
+        localShapeState[2].x += 1;
+        localShapeState[2].y -= 1;
+
+        console.log(localShapeState);
+
 
         if (this.gridPositionsFree(localShapeState, "local state")) {
           this.setState({
@@ -83,10 +85,12 @@ class ZBlock extends BaseShape {
 
       case 90:
         localShapeState[0].x -= 1;
-        localShapeState[1].y -= 1;
-        localShapeState[2].x += 1;
-        localShapeState[3].x += 2;
-        localShapeState[3].y -= 1;
+        localShapeState[0].y -= 1;
+        localShapeState[1].y -= 2;
+        localShapeState[2].x -= 1;
+        localShapeState[2].y += 1;
+        console.log(localShapeState);
+
 
         if (this.gridPositionsFree(localShapeState, "local state")) {
           this.setState({
@@ -94,6 +98,7 @@ class ZBlock extends BaseShape {
             rotationDeg: 0
           });
         }
+
         break;
 
       default:
@@ -140,4 +145,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ZBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(FlippedZ);

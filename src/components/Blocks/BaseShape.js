@@ -6,7 +6,7 @@ class BaseShape extends Component {
   componentDidMount() {
     /**Creates an interval where at iteration, a check to whether the block
      * can continue to drop further will take place, before dropping the block.
-     * If this returns false, then stop the sshoetIntervalFunction and update the
+     * If this returns false, then stop the setInterval function and update the
      * state to cause another block to drop.
      */
     const dropBlockInterval = setInterval(() => {
@@ -85,6 +85,32 @@ class BaseShape extends Component {
       }
     }
     return grid;
+  };
+
+  gridPositionsFree = (shape, gridLocation) => {
+    /**Using a list of objects containing x and y co-ordinates, find if those
+     * positions are all available in the grid.
+     *
+     * Args:
+     *    shape: (list) containing objects with x an y positions representing
+     *      row and column numbers on a grid.
+     *    gridLocation (string ['local state', redux store']) Indicate where
+     *      the grid is stored to be compared against.
+     */
+    let grid;
+    // let subGrid;
+    if (gridLocation === "local state") {
+      grid = this.state.grid
+    } else if (gridLocation === "redux store") {
+      grid = this.props.grid
+    } else {
+      throw TypeError("gridLocation must equal 'local state' or 'redux store'");
+    }
+
+    const subGrid = shape.map(elem => grid[`row${elem.y}`][elem.x - 1]);
+    return subGrid
+      .map(elem => !elem && elem !== undefined)
+      .reduce((andTotal, currentElem) => andTotal && currentElem, true);
   };
 
   getShapeRightSide = () => {
