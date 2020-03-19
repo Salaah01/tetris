@@ -63,9 +63,6 @@ describe("gridPositionsFree method", () => {
 
   beforeEach(() => {
     testClass = new TestBaseShape();
-  });
-
-  it("should return true", () => {
     testClass.state = {
       grid: {
         row1: [false, false, false, false],
@@ -73,15 +70,89 @@ describe("gridPositionsFree method", () => {
         row3: [false, false, false, false]
       }
     };
+    testClass.props = {
+      grid: {
+        row1: [false, false, false, false],
+        row2: [false, false, false, false],
+        row3: [false, false, false, false]
+      }
+    };
+  });
+
+  it("should return true where all positions are free", () => {
     const shape = [
       { x: 2, y: 1 },
       { x: 3, y: 2 },
       { x: 1, y: 2 },
-      { x: 5, y: 1 }
+      { x: 4, y: 1 }
     ];
 
-    const gridFree = testClass.gridPositionFree(shape, "localState");
+    const gridFree = testClass.gridPositionsFree(shape, "local state");
     expect(gridFree).toEqual(true);
+  });
+
+  it("should return false where there is a item in the grid in a such a position which would have the shape overlap it.", () => {
+    testClass.state = {
+      grid: {
+        row1: [false, false, false, false],
+        row2: [false, "abc", false, false],
+        row3: [false, false, false, false]
+      }
+    };
+
+    const shape = [
+      { x: 2, y: 1 },
+      { x: 2, y: 2 },
+      { x: 1, y: 2 },
+      { x: 4, y: 1 }
+    ];
+
+    const gridFree = testClass.gridPositionsFree(shape, "local state");
+    expect(gridFree).toEqual(false);
+  });
+
+  it("should return false where the shape x's value out of bound. Triggered when user tries to move block too far left and out of the grid area.", () => {
+    const shape = [{ x: 0, y: 1 }];
+
+    const gridFree = testClass.gridPositionsFree(shape, "local state");
+    expect(gridFree).toEqual(false);
+  });
+
+  it("should return false where the shape x's value out of bound. Triggered when user tries to move block too far right and out of the grid area.", () => {
+    const shape = [{ x: 999, y: 1 }];
+
+    const gridFree = testClass.gridPositionsFree(shape, "local state");
+    expect(gridFree).toEqual(false);
+  });
+
+  it("should only check for obstructions in the local state", () => {
+    testClass.props.grid = {
+      row1: [1, 1, 1, 1],
+      row2: [1, 1, 1, 1],
+      row3: [1, 1, 1, 1]
+    };
+
+    const shape = [{ x: 2, y: 1 }];
+    const gridFree = testClass.gridPositionsFree(shape, "local state");
+    expect(gridFree).toEqual(true);
+  });
+
+  it("should only check for obstructions in the redux store", () => {
+    testClass.state.grid = {
+      row1: [1, 1, 1, 1],
+      row2: [1, 1, 1, 1],
+      row3: [1, 1, 1, 1]
+    };
+
+    const shape = [{ x: 2, y: 1 }];
+    const gridFree = testClass.gridPositionsFree(shape, "redux store");
+    expect(gridFree).toEqual(true);
+  });
+
+  it("should throw and error when the gridLocation arg is invalid.", () => {
+    expect(() => {
+      testClass.gridPositionsFree([{ x: 2, y: 1 }], "abc");
+    }).toThrow();
   });
 });
 
@@ -129,3 +200,6 @@ describe("getCurrentRow", () => {
     expect(testClass.getCurrentRow()).toEqual(3);
   });
 });
+
+
+
