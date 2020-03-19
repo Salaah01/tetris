@@ -1,11 +1,9 @@
 /**A Z shape block along with its controls. */
 
 // Third Party Imports
-import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 // Local Imports
-import SingleUnit from "../singleUnit";
 import BaseShape, { mapStateToProps, mapDispatchToProps } from "../BaseShape";
 
 class ZBlock extends BaseShape {
@@ -99,26 +97,6 @@ class ZBlock extends BaseShape {
         break;
     }
   };
-
-  render() {
-    /**Renders the component. */
-    const blockUnits = this.state.shape.map((blockUnit, idx) => (
-      <SingleUnit
-        key={idx}
-        col={blockUnit.x}
-        row={blockUnit.y}
-        colour={this.props.colour}
-      />
-    ));
-    return (
-      <Fragment>
-        <button onClick={this.moveLeftHandler}>Left</button>
-        <button onClick={this.moveRightHandler}>Right</button>
-        <button onClick={this.rotationHandler}>Rotate</button>
-        {blockUnits}
-      </Fragment>
-    );
-  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ZBlock);
