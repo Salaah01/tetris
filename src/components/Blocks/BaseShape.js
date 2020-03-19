@@ -1,6 +1,8 @@
 /**An abstract class object which contain core functions for a shape. */
 
-import React, { Component } from "react";
+import { Component } from "react";
+
+import * as actions from "../../store/actions/index";
 
 class BaseShape extends Component {
   componentDidMount() {
@@ -98,11 +100,10 @@ class BaseShape extends Component {
      *      the grid is stored to be compared against.
      */
     let grid;
-    // let subGrid;
     if (gridLocation === "local state") {
-      grid = this.state.grid
+      grid = this.state.grid;
     } else if (gridLocation === "redux store") {
-      grid = this.props.grid
+      grid = this.props.grid;
     } else {
       throw TypeError("gridLocation must equal 'local state' or 'redux store'");
     }
@@ -199,8 +200,10 @@ class BaseShape extends Component {
     let stepSizeX;
     if (direction === "left") {
       stepSizeX = -1;
-    } else {
+    } else if (direction === "right") {
       stepSizeX = 1;
+    } else {
+      throw Error("direction must equal either left or right.");
     }
 
     if (
@@ -228,3 +231,21 @@ class BaseShape extends Component {
 }
 
 export default BaseShape;
+
+export const mapStateToProps = state => {
+  return {
+    xMax: state.gameGrid.xMax,
+    yMax: state.gameGrid.yMax,
+    grid: state.gameGrid.grid,
+    dropBlock: state.gameGrid.dropBlock
+  };
+};
+
+export const mapDispatchToProps = dispatch => {
+  return {
+    onUpdateGrid: newSubGrid => dispatch(actions.updateGrid(newSubGrid)),
+    onStartDropNewBlock: () => dispatch(actions.startDropNewBlock()),
+    onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock()),
+    onDeleteRow: () => dispatch(actions.deleteRow())
+  };
+};

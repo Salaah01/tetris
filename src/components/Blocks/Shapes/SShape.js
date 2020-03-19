@@ -1,20 +1,19 @@
-/**A square block block along with its controls. */
+/**A Z shape block along with its controls. */
 
 // Third Party Imports
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 // Local Imports
-import * as actions from "../../../store/actions/index";
 import SingleUnit from "../singleUnit";
-import BaseShape from "../BaseShape";
+import BaseShape, { mapStateToProps, mapDispatchToProps } from "../BaseShape";
 
-class SquareBlock extends BaseShape {
+class SShape extends BaseShape {
   state = {
     shape: [
-      { x: Math.floor(this.props.xMax / 2), y: 1 },
       { x: Math.floor(this.props.xMax / 2) + 1, y: 1 },
-      { x: Math.floor(this.props.xMax / 2), y: 2 },
+      { x: Math.floor(this.props.xMax / 2) + 2, y: 1 },
+      { x: Math.floor(this.props.xMax / 2) + 0, y: 2 },
       { x: Math.floor(this.props.xMax / 2) + 1, y: 2 }
     ],
     dropping: this.props.dropBlock,
@@ -57,6 +56,53 @@ class SquareBlock extends BaseShape {
     }
   };
 
+  rotationHandler = () => {
+    /**Rotates the block 90 degrees if possible. */
+    const localShapeState = [];
+    for (let elemIdx = 0; elemIdx < this.state.shape.length; elemIdx++) {
+      localShapeState.push({ ...this.state.shape[elemIdx] });
+    }
+    switch (this.state.rotationDeg) {
+      case 0:
+        localShapeState[0].x += 1;
+        localShapeState[0].y += 1;
+        localShapeState[1].y += 2;
+        localShapeState[2].x += 1;
+        localShapeState[2].y -= 1;
+
+        console.log(localShapeState);
+
+        if (this.gridPositionsFree(localShapeState, "local state")) {
+          this.setState({
+            shape: localShapeState,
+            rotationDeg: 90
+          });
+        }
+
+        break;
+
+      case 90:
+        localShapeState[0].x -= 1;
+        localShapeState[0].y -= 1;
+        localShapeState[1].y -= 2;
+        localShapeState[2].x -= 1;
+        localShapeState[2].y += 1;
+        console.log(localShapeState);
+
+        if (this.gridPositionsFree(localShapeState, "local state")) {
+          this.setState({
+            shape: localShapeState,
+            rotationDeg: 0
+          });
+        }
+
+        break;
+
+      default:
+        break;
+    }
+  };
+
   render() {
     /**Renders the component. */
     const blockUnits = this.state.shape.map((blockUnit, idx) => (
@@ -78,22 +124,4 @@ class SquareBlock extends BaseShape {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    xMax: state.gameGrid.xMax,
-    yMax: state.gameGrid.yMax,
-    grid: state.gameGrid.grid,
-    dropBlock: state.gameGrid.dropBlock
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onUpdateGrid: newSubGrid => dispatch(actions.updateGrid(newSubGrid)),
-    onStartDropNewBlock: () => dispatch(actions.startDropNewBlock()),
-    onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock()),
-    onDeleteRow: () => dispatch(actions.deleteRow())
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SquareBlock);
+export default connect(mapStateToProps, mapDispatchToProps)(SShape);

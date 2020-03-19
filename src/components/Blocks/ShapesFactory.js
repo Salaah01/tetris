@@ -6,9 +6,13 @@
 import React, { Component } from "react";
 
 // Local Imports
-import Square from "./Shapes/Square";
+import OShape from "./Shapes/OShape";
 import ZShape from "./Shapes/ZShape";
-import FlippedZ from './Shapes/FlippedZ'
+import SShape from "./Shapes/SShape";
+import IShape from "./Shapes/IShape";
+import TShape from "./Shapes/TShape";
+import JShape from "./Shapes/JShape";
+import LShape from "./Shapes/LShape";
 
 class ShapeFactory extends Component {
   colours = ["#2ecc71", "#3498db", "#9b59b6", "#e67e22", "#f1c40f", "#e74c3c"];
@@ -17,32 +21,31 @@ class ShapeFactory extends Component {
     this.colours[Math.floor(Math.random() * this.colours.length)];
 
   render() {
+    const coreProps = {
+      col: this.props.col,
+      row: this.props.row,
+      colour: this.block_colour()
+    };
     switch (this.props.shape) {
-      case "Square":
-        return (
-          <Square
-            col={this.props.col}
-            row={this.props.row}
-            colour={this.block_colour()}
-          />
-        );
+      case "OShape":
+        return <OShape {...coreProps} />;
       case "ZShape":
-        return (
-          <ZShape
-            col={this.props.col}
-            row={this.props.row}
-            colour={this.block_colour()}
-          />
-        );
+        return <ZShape {...coreProps} />;
 
-      case "FlippedZ":
-        return (
-          <FlippedZ
-            col={this.props.col}
-            row={this.props.row}
-            colour={this.block_colour()}
-          />
-        )
+      case "SShape":
+        return <SShape {...coreProps} />;
+
+      case "IShape":
+        return <IShape {...coreProps} />;
+
+      case "TShape":
+        return <TShape {...coreProps} />;
+
+      case "JShape":
+        return <JShape {...coreProps} />;
+
+      case "LShape":
+        return <LShape {...coreProps} />;
 
       default:
         console.error("Invalid shape");

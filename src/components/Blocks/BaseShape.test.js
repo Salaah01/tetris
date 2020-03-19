@@ -186,7 +186,7 @@ describe("getShapeLeftSide", () => {
   });
 });
 
-describe("getCurrentRow", () => {
+describe("getCurrentRow method", () => {
   it("should return the current/lowest row (max y value).", () => {
     const testClass = new TestBaseShape();
     testClass.state = {
@@ -200,6 +200,3 @@ describe("getCurrentRow", () => {
     expect(testClass.getCurrentRow()).toEqual(3);
   });
 });
-
-
-

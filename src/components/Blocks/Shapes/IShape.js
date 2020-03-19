@@ -5,17 +5,16 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 // Local Imports
-import * as actions from "../../../store/actions/index";
 import SingleUnit from "../singleUnit";
-import BaseShape from "../BaseShape";
+import BaseShape, { mapStateToProps, mapDispatchToProps } from "../BaseShape";
 
-class FlippedZ extends BaseShape {
+class IShape extends BaseShape {
   state = {
     shape: [
-      { x: Math.floor(this.props.xMax / 2) + 1, y: 1 },
-      { x: Math.floor(this.props.xMax / 2) + 2, y: 1 },
-      { x: Math.floor(this.props.xMax / 2) + 0, y: 2 },
-      { x: Math.floor(this.props.xMax / 2) + 1, y: 2 }
+      { x: Math.floor(this.props.xMax / 2), y: 1 },
+      { x: Math.floor(this.props.xMax / 2), y: 2 },
+      { x: Math.floor(this.props.xMax / 2), y: 3 },
+      { x: Math.floor(this.props.xMax / 2), y: 4 }
     ],
     dropping: this.props.dropBlock,
     grid: { ...this.props.grid },
@@ -63,16 +62,15 @@ class FlippedZ extends BaseShape {
     for (let elemIdx = 0; elemIdx < this.state.shape.length; elemIdx++) {
       localShapeState.push({ ...this.state.shape[elemIdx] });
     }
+
     switch (this.state.rotationDeg) {
       case 0:
-        localShapeState[0].x += 1;
-        localShapeState[0].y += 1;
-        localShapeState[1].y += 2;
-        localShapeState[2].x += 1;
-        localShapeState[2].y -= 1;
-
-        console.log(localShapeState);
-
+        localShapeState[0].y += 2;
+        localShapeState[0].x -= 2;
+        localShapeState[1].x -= 1;
+        localShapeState[1].y += 1;
+        localShapeState[3].x += 1;
+        localShapeState[3].y -= 1;
 
         if (this.gridPositionsFree(localShapeState, "local state")) {
           this.setState({
@@ -84,13 +82,12 @@ class FlippedZ extends BaseShape {
         break;
 
       case 90:
-        localShapeState[0].x -= 1;
-        localShapeState[0].y -= 1;
-        localShapeState[1].y -= 2;
-        localShapeState[2].x -= 1;
-        localShapeState[2].y += 1;
-        console.log(localShapeState);
-
+        localShapeState[0].y -= 2;
+        localShapeState[0].x += 2;
+        localShapeState[1].x += 1;
+        localShapeState[1].y -= 1;
+        localShapeState[3].x -= 1;
+        localShapeState[3].y += 1;
 
         if (this.gridPositionsFree(localShapeState, "local state")) {
           this.setState({
@@ -98,7 +95,6 @@ class FlippedZ extends BaseShape {
             rotationDeg: 0
           });
         }
-
         break;
 
       default:
@@ -127,22 +123,4 @@ class FlippedZ extends BaseShape {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    xMax: state.gameGrid.xMax,
-    yMax: state.gameGrid.yMax,
-    grid: state.gameGrid.grid,
-    dropBlock: state.gameGrid.dropBlock
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onUpdateGrid: newSubGrid => dispatch(actions.updateGrid(newSubGrid)),
-    onStartDropNewBlock: () => dispatch(actions.startDropNewBlock()),
-    onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock()),
-    onDeleteRow: () => dispatch(actions.deleteRow())
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(FlippedZ);
+export default connect(mapStateToProps, mapDispatchToProps)(IShape);
