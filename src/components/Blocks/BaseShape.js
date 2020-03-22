@@ -6,6 +6,13 @@ import * as actions from "../../store/actions/index";
 import SingleUnit from "./singleUnit";
 
 class BaseShape extends Component {
+  genericState = {
+    dropping: this.props.dropBlock,
+    grid: { ...this.props.grid },
+    rotationDeg: 0,
+    lastRotationTime: new Date().getMilliseconds()
+  };
+
   componentDidMount() {
     /**Creates an interval where at iteration, a check to whether the block
      * can continue to drop further will take place, before dropping the block.
@@ -21,10 +28,23 @@ class BaseShape extends Component {
         // avoiding an if check and dispatching an action to the store.
         this.updateGridHandler();
         this.props.onStopDropNewBlock();
-        this.props.onStartDropNewBlock();
+        if (this.props.playing) {
+          this.props.onStartDropNewBlock();
+        }
       }
     }, 185);
   }
+
+  dropBlockIfPossibleHandler = (userTrigger = false) => {
+    /**Will drop the block down a level if possible. */
+    if (this.shouldBlockDrop()) {
+      // Update score if the user triggered the drop.
+      if (userTrigger) {
+        this.props.onUpdateScore("dropBlock");
+      }
+      this.dropBlock();
+    }
+  };
 
   bottomBlockUnits = () => {
     /**Abstract method */
@@ -55,8 +75,10 @@ class BaseShape extends Component {
 
   deleteRows = currentLocalGrid => {
     /**Checks if a row is "full" and is full with block elements, if so
-     * remove that row and move each row above, down one row.
+     * remove that row and move each row above, down one row and update the
+     * score.
      */
+
     // For safety, a new grid is created though it is likely that the object
     // can be mutated.
     const grid = {
@@ -72,6 +94,9 @@ class BaseShape extends Component {
 
       // Check if a row contains 0 "false" elements.
       if (!grid[colName].filter(rowElem => rowElem === false).length) {
+        // Update the score.
+        this.props.onUpdateScore("deleteRow", this.props.yMax);
+
         const reversedSubKeys = reversedKeys.slice(
           reversedKeys.indexOf(colName)
         );
@@ -87,6 +112,7 @@ class BaseShape extends Component {
         }
       }
     }
+
     return grid;
   };
 
@@ -149,6 +175,18 @@ class BaseShape extends Component {
     }));
   };
 
+  checkGameOver = shape => {
+    /**Checks if it should be game over. If so, update the redux store and
+     * return true.
+     */
+    if (shape.filter(elem => elem === undefined).length) {
+      this.props.onGameOver();
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   updateGridHandler = () => {
     /**Updates the grid in the redux store and local state. */
 
@@ -179,6 +217,24 @@ class BaseShape extends Component {
       }),
       () => this.props.onUpdateGrid(this.state.grid)
     );
+  };
+
+  canShapeRotate = () => {
+    /**Each rotation should have a small delay without which will prevent the
+     * block from rotating at a crazy rate.
+     * The method will check if if a certain amount of time has passed since
+     * the last rotation, and if so, it will update the state with the new
+     * rotation time and return true, otherwise return false.
+     */
+    if (
+      Math.abs(new Date().getMilliseconds() - this.state.lastRotationTime) >=
+      200
+    ) {
+      this.setState({ lastRotationTime: new Date().getMilliseconds() });
+      return true;
+    } else {
+      return false;
+    }
   };
 
   moveLeftHandler = () => {
@@ -242,9 +298,21 @@ class BaseShape extends Component {
     ));
     return (
       <Fragment>
-        <button onClick={this.moveLeftHandler}>Left</button>
-        <button onClick={this.moveRightHandler}>Right</button>
-        <button onClick={this.rotationHandler}>Rotate</button>
+        <button id="move-left-btn" onClick={this.moveLeftHandler}>
+          Left
+        </button>
+        <button id="move-right-btn" onClick={this.moveRightHandler}>
+          Right
+        </button>
+        <button id="rotate-btn" onClick={this.rotationHandler}>
+          Rotate
+        </button>
+        <button
+          id="move-down-btn"
+          onClick={() => this.dropBlockIfPossibleHandler(true)}
+        >
+          Down
+        </button>
         {blockUnits}
       </Fragment>
     );
@@ -258,7 +326,8 @@ export const mapStateToProps = state => {
     xMax: state.gameGrid.xMax,
     yMax: state.gameGrid.yMax,
     grid: state.gameGrid.grid,
-    dropBlock: state.gameGrid.dropBlock
+    dropBlock: state.gameGrid.dropBlock,
+    playing: state.gameStatus.playing
   };
 };
 
@@ -267,6 +336,9 @@ export const mapDispatchToProps = dispatch => {
     onUpdateGrid: newSubGrid => dispatch(actions.updateGrid(newSubGrid)),
     onStartDropNewBlock: () => dispatch(actions.startDropNewBlock()),
     onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock()),
-    onDeleteRow: () => dispatch(actions.deleteRow())
+    onDeleteRow: () => dispatch(actions.deleteRow()),
+    onUpdateScore: (triggerReason, xMax) =>
+      dispatch(actions.updateScore(triggerReason, xMax)),
+    onGameOver: () => dispatch(actions.gameOver())
   };
 };

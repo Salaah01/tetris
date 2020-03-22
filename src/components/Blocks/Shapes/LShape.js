@@ -7,16 +7,16 @@ import { connect } from "react-redux";
 import BaseShape, { mapStateToProps, mapDispatchToProps } from "../BaseShape";
 
 class LShape extends BaseShape {
+  lastRotationTime = new Date().getMilliseconds();
+
   state = {
+    ...this.genericState,
     shape: [
       { x: Math.floor(this.props.xMax / 2), y: 1 },
       { x: Math.floor(this.props.xMax / 2), y: 2 },
       { x: Math.floor(this.props.xMax / 2), y: 3 },
       { x: Math.floor(this.props.xMax / 2) + 1, y: 3 }
-    ],
-    dropping: this.props.dropBlock,
-    grid: { ...this.props.grid },
-    rotationDeg: 0
+    ]
   };
 
   bottomBlockUnits = () => [this.state.shape[2], this.state.shape[3]];
@@ -56,75 +56,85 @@ class LShape extends BaseShape {
 
   rotationHandler = () => {
     /**Rotates the block 90 degrees if possible. */
-    const localShapeState = [];
-    for (let elemIdx = 0; elemIdx < this.state.shape.length; elemIdx++) {
-      localShapeState.push({ ...this.state.shape[elemIdx] });
+    if (
+      Math.abs(new Date().getMilliseconds() - this.state.lastRotationTime) < 200
+    ) {
+      return;
+    } else {
+      this.setState({ lastRotationTime: new Date().getMilliseconds() });
     }
 
-    switch (this.state.rotationDeg) {
-      case 0:
-        localShapeState[0].x += 1;
-        localShapeState[0].y += 1;
-        localShapeState[2].x -= 1;
-        localShapeState[2].y -= 1;
-        localShapeState[3].x -= 2;
+    if (this.canShapeRotate()) {
+      const localShapeState = [];
+      for (let elemIdx = 0; elemIdx < this.state.shape.length; elemIdx++) {
+        localShapeState.push({ ...this.state.shape[elemIdx] });
+      }
 
-        if (this.gridPositionsFree(localShapeState, "local state")) {
-          this.setState({
-            shape: localShapeState,
-            rotationDeg: 90
-          });
-        }
+      switch (this.state.rotationDeg) {
+        case 0:
+          localShapeState[0].x += 1;
+          localShapeState[0].y += 1;
+          localShapeState[2].x -= 1;
+          localShapeState[2].y -= 1;
+          localShapeState[3].x -= 2;
 
-        break;
+          if (this.gridPositionsFree(localShapeState, "local state")) {
+            this.setState({
+              shape: localShapeState,
+              rotationDeg: 90
+            });
+          }
 
-      case 90:
-        localShapeState[0].x -= 1;
-        localShapeState[0].y += 1;
-        localShapeState[2].x += 1;
-        localShapeState[2].y -= 1;
-        localShapeState[3].y -= 2;
+          break;
 
-        if (this.gridPositionsFree(localShapeState, "local state")) {
-          this.setState({
-            shape: localShapeState,
-            rotationDeg: 180
-          });
-        }
-        break;
+        case 90:
+          localShapeState[0].x -= 1;
+          localShapeState[0].y += 1;
+          localShapeState[2].x += 1;
+          localShapeState[2].y -= 1;
+          localShapeState[3].y -= 2;
 
-      case 180:
-        localShapeState[0].x -= 1;
-        localShapeState[0].y -= 1;
-        localShapeState[2].x += 1;
-        localShapeState[2].y += 1;
-        localShapeState[3].x += 2;
+          if (this.gridPositionsFree(localShapeState, "local state")) {
+            this.setState({
+              shape: localShapeState,
+              rotationDeg: 180
+            });
+          }
+          break;
 
-        if (this.gridPositionsFree(localShapeState, "local state")) {
-          this.setState({
-            shape: localShapeState,
-            rotationDeg: 270
-          });
-        }
-        break;
+        case 180:
+          localShapeState[0].x -= 1;
+          localShapeState[0].y -= 1;
+          localShapeState[2].x += 1;
+          localShapeState[2].y += 1;
+          localShapeState[3].x += 2;
 
-      case 270:
-        localShapeState[0].x += 1;
-        localShapeState[0].y -= 1;
-        localShapeState[2].x -= 1;
-        localShapeState[2].y += 1;
-        localShapeState[3].y += 2;
+          if (this.gridPositionsFree(localShapeState, "local state")) {
+            this.setState({
+              shape: localShapeState,
+              rotationDeg: 270
+            });
+          }
+          break;
 
-        if (this.gridPositionsFree(localShapeState, "local state")) {
-          this.setState({
-            shape: localShapeState,
-            rotationDeg: 0
-          });
-        }
-        break;
+        case 270:
+          localShapeState[0].x += 1;
+          localShapeState[0].y -= 1;
+          localShapeState[2].x -= 1;
+          localShapeState[2].y += 1;
+          localShapeState[3].y += 2;
 
-      default:
-        break;
+          if (this.gridPositionsFree(localShapeState, "local state")) {
+            this.setState({
+              shape: localShapeState,
+              rotationDeg: 0
+            });
+          }
+          break;
+
+        default:
+          break;
+      }
     }
   };
 }

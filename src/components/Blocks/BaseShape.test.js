@@ -6,6 +6,21 @@ class TestBaseShape extends BaseShape {
    * instance of this class instead.
    */
 
+  constructor(props) {
+    props = {
+      genericState: {},
+      yMax: 22,
+      onUpdateScore: (_1, _2) => true
+    };
+    super(props);
+  }
+
+  // genericState = {
+  //   dropping: true,
+  //   dropBlock: true,
+  //   grid: {}
+  // };
+
   componentDidMount() {
     return;
   }

@@ -1,9 +1,5 @@
-/**============================================================================
- * FILENAME: gameGrid.js
- * PURPOSE: Contains the redux reducers related to the game grid.
- *          These include:
- *              updateShapeUnitsCount: Updates the shape units count.
- * ============================================================================
+/**Contains the redux reducers related to the game grid. These include:
+ *  updateShapeUnitsCount: Updates the shape units count.
  */
 
 // Third Party Imports
@@ -14,7 +10,7 @@ import { updateObject } from "../../corefunctions";
 
 const initialState = {
   shapeUnitsCount: 0,
-  xMax: 6,
+  xMax: 20,
   yMax: 20,
   dropBlock: true,
   grid: {}
@@ -48,7 +44,6 @@ const stopDropNewBlock = state => {
   return updateObject(state, { dropBlock: false });
 };
 
-/**Redux reducer */
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_SHAPE_UNITS_COUNT:

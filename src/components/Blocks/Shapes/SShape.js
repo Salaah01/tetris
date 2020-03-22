@@ -8,15 +8,13 @@ import BaseShape, { mapStateToProps, mapDispatchToProps } from "../BaseShape";
 
 class SShape extends BaseShape {
   state = {
+    ...this.genericState,
     shape: [
       { x: Math.floor(this.props.xMax / 2) + 1, y: 1 },
       { x: Math.floor(this.props.xMax / 2) + 2, y: 1 },
       { x: Math.floor(this.props.xMax / 2) + 0, y: 2 },
       { x: Math.floor(this.props.xMax / 2) + 1, y: 2 }
-    ],
-    dropping: this.props.dropBlock,
-    grid: { ...this.props.grid },
-    rotationDeg: 0
+    ]
   };
 
   bottomBlockUnits = () => [this.state.shape[2], this.state.shape[3]];
@@ -56,48 +54,50 @@ class SShape extends BaseShape {
 
   rotationHandler = () => {
     /**Rotates the block 90 degrees if possible. */
-    const localShapeState = [];
-    for (let elemIdx = 0; elemIdx < this.state.shape.length; elemIdx++) {
-      localShapeState.push({ ...this.state.shape[elemIdx] });
-    }
-    switch (this.state.rotationDeg) {
-      case 0:
-        localShapeState[0].x += 1;
-        localShapeState[0].y += 1;
-        localShapeState[1].y += 2;
-        localShapeState[2].x += 1;
-        localShapeState[2].y -= 1;
+    if (this.canShapeRotate()) {
+      const localShapeState = [];
+      for (let elemIdx = 0; elemIdx < this.state.shape.length; elemIdx++) {
+        localShapeState.push({ ...this.state.shape[elemIdx] });
+      }
+      switch (this.state.rotationDeg) {
+        case 0:
+          localShapeState[0].x += 1;
+          localShapeState[0].y += 1;
+          localShapeState[1].y += 2;
+          localShapeState[2].x += 1;
+          localShapeState[2].y -= 1;
 
-        console.log(localShapeState);
+          console.log(localShapeState);
 
-        if (this.gridPositionsFree(localShapeState, "local state")) {
-          this.setState({
-            shape: localShapeState,
-            rotationDeg: 90
-          });
-        }
+          if (this.gridPositionsFree(localShapeState, "local state")) {
+            this.setState({
+              shape: localShapeState,
+              rotationDeg: 90
+            });
+          }
 
-        break;
+          break;
 
-      case 90:
-        localShapeState[0].x -= 1;
-        localShapeState[0].y -= 1;
-        localShapeState[1].y -= 2;
-        localShapeState[2].x -= 1;
-        localShapeState[2].y += 1;
-        console.log(localShapeState);
+        case 90:
+          localShapeState[0].x -= 1;
+          localShapeState[0].y -= 1;
+          localShapeState[1].y -= 2;
+          localShapeState[2].x -= 1;
+          localShapeState[2].y += 1;
+          console.log(localShapeState);
 
-        if (this.gridPositionsFree(localShapeState, "local state")) {
-          this.setState({
-            shape: localShapeState,
-            rotationDeg: 0
-          });
-        }
+          if (this.gridPositionsFree(localShapeState, "local state")) {
+            this.setState({
+              shape: localShapeState,
+              rotationDeg: 0
+            });
+          }
 
-        break;
+          break;
 
-      default:
-        break;
+        default:
+          break;
+      }
     }
   };
 }

@@ -1,12 +1,18 @@
 // Third Party Imports
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 // Local imports
 import GridGame from "./containers/GameGrid/GameGrid";
+import StatusBar from "./containers/StatusBar/StatusBar";
 
 class App extends Component {
   render() {
-    return <GridGame />;
+    return (
+      <Fragment>
+        <GridGame />
+        <StatusBar />
+      </Fragment>
+    );
   }
 }
 

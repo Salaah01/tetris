@@ -8,15 +8,13 @@ import BaseShape, { mapStateToProps, mapDispatchToProps } from "../BaseShape";
 
 class OShape extends BaseShape {
   state = {
+    ...this.genericState,
     shape: [
       { x: Math.floor(this.props.xMax / 2), y: 1 },
       { x: Math.floor(this.props.xMax / 2) + 1, y: 1 },
       { x: Math.floor(this.props.xMax / 2), y: 2 },
       { x: Math.floor(this.props.xMax / 2) + 1, y: 2 }
-    ],
-    dropping: this.props.dropBlock,
-    grid: { ...this.props.grid },
-    rotationDeg: 0
+    ]
   };
 
   bottomBlockUnits = () => [this.state.shape[2], this.state.shape[3]];

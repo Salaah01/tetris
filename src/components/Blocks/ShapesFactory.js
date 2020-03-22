@@ -26,7 +26,23 @@ class ShapeFactory extends Component {
       row: this.props.row,
       colour: this.block_colour()
     };
-    switch (this.props.shape) {
+    let renderShape;
+    if (this.props.random) {
+      const shapes = [
+        "OShape",
+        "ZShape",
+        "SShape",
+        "IShape",
+        "TShape",
+        "JShape",
+        "LShape"
+      ];
+      renderShape = shapes[Math.floor(Math.random() * shapes.length)];
+    } else {
+      renderShape = this.props.shape;
+    }
+
+    switch (renderShape) {
       case "OShape":
         return <OShape {...coreProps} />;
       case "ZShape":

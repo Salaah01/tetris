@@ -4,3 +4,5 @@ export {
   stopDropNewBlock,
   deleteRow
 } from "./gameGrid";
+
+export { updateScore, gameOver } from "./gameStatus";
