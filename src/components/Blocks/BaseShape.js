@@ -10,7 +10,8 @@ class BaseShape extends Component {
     dropping: this.props.dropBlock,
     grid: { ...this.props.grid },
     rotationDeg: 0,
-    lastRotationTime: new Date().getMilliseconds()
+    lastRotationTime: new Date().getMilliseconds(),
+    initDropHappened: false
   };
 
   componentDidMount() {
@@ -28,6 +29,9 @@ class BaseShape extends Component {
         // avoiding an if check and dispatching an action to the store.
         this.updateGridHandler();
         this.props.onStopDropNewBlock();
+        if (!this.state.initDropHappened) {
+          this.props.onGameOver();
+        }
         if (this.props.playing) {
           this.props.onStartDropNewBlock();
         }
@@ -171,20 +175,9 @@ class BaseShape extends Component {
       shape: prevState.shape.map(blockUnit => ({
         x: blockUnit.x,
         y: blockUnit.y + 1
-      }))
+      })),
+      initDropHappened: true
     }));
-  };
-
-  checkGameOver = shape => {
-    /**Checks if it should be game over. If so, update the redux store and
-     * return true.
-     */
-    if (shape.filter(elem => elem === undefined).length) {
-      this.props.onGameOver();
-      return true;
-    } else {
-      return false;
-    }
   };
 
   updateGridHandler = () => {

@@ -32,21 +32,11 @@ class IShape extends BaseShape {
     if (nextRow > this.props.yMax) {
       return false;
     } else {
-      const nextGridRow = [
-        this.state.grid[`row${this.getCurrentRow()}`],
-        this.state.grid[`row${nextRow}`]
-      ];
-
       const nextGridPositions = this.state.shape.map(
         blockUnit => this.state.grid[`row${blockUnit.y + 1}`][blockUnit.x - 1]
       );
 
-      // Check if it is game over.
-      if (this.checkGameOver(nextGridPositions)) {
-        return false;
-      } else {
-        return nextGridPositions.every(elem => !elem);
-      }
+      return nextGridPositions.every(elem => !elem);
     }
   };
 

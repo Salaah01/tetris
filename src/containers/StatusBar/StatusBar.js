@@ -18,10 +18,5 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onUpdateScore: (triggerReason) => dispatch(actions.updateScore(triggerReason))
-  }
-}
 
 export default connect(mapStateToProps)(StatusBar);

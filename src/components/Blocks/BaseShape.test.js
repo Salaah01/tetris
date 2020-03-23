@@ -15,12 +15,6 @@ class TestBaseShape extends BaseShape {
     super(props);
   }
 
-  // genericState = {
-  //   dropping: true,
-  //   dropBlock: true,
-  //   grid: {}
-  // };
-
   componentDidMount() {
     return;
   }
@@ -213,5 +207,27 @@ describe("getCurrentRow method", () => {
       ]
     };
     expect(testClass.getCurrentRow()).toEqual(3);
+  });
+});
+
+describe("checkGameOver method", () => {
+  let testClass;
+
+  beforeEach(() => {
+    testClass = new TestBaseShape();
+    testClass.state = {
+      grid: {
+        row1: [false, false, false, false],
+        row2: [false, false, false, false],
+        row3: [false, false, false, false]
+      }
+    };
+    testClass.props = {
+      grid: {
+        row1: [false, false, false, false],
+        row2: [false, false, false, false],
+        row3: [false, false, false, false]
+      }
+    };
   });
 });
