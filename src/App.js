@@ -4,6 +4,7 @@ import React, { Component, Fragment } from "react";
 // Local imports
 import GridGame from "./containers/GameGrid/GameGrid";
 import StatusBar from "./containers/StatusBar/StatusBar";
+import Controls from './containers/Controls/Controls'
 
 class App extends Component {
   render() {
@@ -11,6 +12,7 @@ class App extends Component {
       <Fragment>
         <GridGame />
         <StatusBar />
+        <Controls />
       </Fragment>
     );
   }

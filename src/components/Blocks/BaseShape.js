@@ -33,6 +33,7 @@ class BaseShape extends Component {
           this.props.onGameOver();
         }
         if (this.props.playing) {
+          this.props.onIncrementShapesDropped();
           this.props.onStartDropNewBlock();
         }
       }
@@ -170,14 +171,23 @@ class BaseShape extends Component {
   };
 
   dropBlock = () => {
-    /**Drops the block another level by updating the local state. */
-    this.setState(prevState => ({
-      shape: prevState.shape.map(blockUnit => ({
-        x: blockUnit.x,
-        y: blockUnit.y + 1
-      })),
-      initDropHappened: true
-    }));
+    /**Drops the block another level by updating the local state.
+     * If the page is paused, do not drop.
+     */
+
+    if (this.props.paused) {
+      if (!this.state.initDropHappened) {
+        this.setState(prevState => ({ initDropHappened: true }));
+      }
+    } else {
+      this.setState(prevState => ({
+        shape: prevState.shape.map(blockUnit => ({
+          x: blockUnit.x,
+          y: blockUnit.y + 1
+        })),
+        initDropHappened: true
+      }));
+    }
   };
 
   updateGridHandler = () => {
@@ -291,21 +301,23 @@ class BaseShape extends Component {
     ));
     return (
       <Fragment>
-        <button id="move-left-btn" onClick={this.moveLeftHandler}>
-          Left
-        </button>
-        <button id="move-right-btn" onClick={this.moveRightHandler}>
-          Right
-        </button>
-        <button id="rotate-btn" onClick={this.rotationHandler}>
-          Rotate
-        </button>
-        <button
-          id="move-down-btn"
-          onClick={() => this.dropBlockIfPossibleHandler(true)}
-        >
-          Down
-        </button>
+        <div style={{ display: "none" }}>
+          <button id="move-left-btn" onClick={this.moveLeftHandler}>
+            Left
+          </button>
+          <button id="move-right-btn" onClick={this.moveRightHandler}>
+            Right
+          </button>
+          <button id="rotate-btn" onClick={this.rotationHandler}>
+            Rotate
+          </button>
+          <button
+            id="move-down-btn"
+            onClick={() => this.dropBlockIfPossibleHandler(true)}
+          >
+            Down
+          </button>
+        </div>
         {blockUnits}
       </Fragment>
     );
@@ -320,7 +332,9 @@ export const mapStateToProps = state => {
     yMax: state.gameGrid.yMax,
     grid: state.gameGrid.grid,
     dropBlock: state.gameGrid.dropBlock,
-    playing: state.gameStatus.playing
+    playing: state.gameStatus.playing,
+    paused: state.gameStatus.paused,
+    shapesDropped: state.gameStatus.shapesDropped
   };
 };
 
@@ -332,6 +346,7 @@ export const mapDispatchToProps = dispatch => {
     onDeleteRow: () => dispatch(actions.deleteRow()),
     onUpdateScore: (triggerReason, xMax) =>
       dispatch(actions.updateScore(triggerReason, xMax)),
-    onGameOver: () => dispatch(actions.gameOver())
+    onGameOver: () => dispatch(actions.gameOver()),
+    onIncrementShapesDropped: () => dispatch(actions.incrementShapesDropped())
   };
 };

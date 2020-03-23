@@ -7,3 +7,6 @@ export const DELETE_ROW = "DELETE_ROW";
 export const UPDATE_SCORE = "UPDATE_SCORE";
 export const NEXT_LEVEL = "NEXT_LEVEL";
 export const GAME_OVER = "GAME_OVER";
+export const PAUSE_GAME = "PAUSE_GAME";
+export const RESUME_GAME = "RESUME_GAME";
+export const INCREMENT_SHAPES_DROPPED = "INCREMENT_SHAPES_DROPPED";

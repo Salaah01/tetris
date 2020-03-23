@@ -1,11 +1,13 @@
 import gameStatusReducer from "./gameStatus";
 import * as actionTypes from "../actions/actionTypes";
+import reducer from "./gameStatus";
 
 const initialState = {
   gameOver: false,
   playing: true,
   score: 5,
-  multiplier: 2
+  multiplier: 2,
+  paused: false
 };
 
 for (let gridRow = 1; gridRow <= initialState.yMax; gridRow++) {
@@ -63,5 +65,31 @@ describe("gameOver", () => {
 
   it("should not mutate the original object", () => {
     expect(state).toEqual(initialState);
+  });
+});
+
+describe("pauseGame", () => {
+  it("should set paused to true.", () => {
+    const state = { paused: false };
+    const reducer = gameStatusReducer(state, { type: actionTypes.PAUSE_GAME });
+    expect(reducer.paused).toEqual(true);
+  });
+});
+
+describe("resumeGame", () => {
+  it("should set paused to false.", () => {
+    const state = { paused: true };
+    const reducer = gameStatusReducer(state, { type: actionTypes.RESUME_GAME });
+    expect(reducer.paused).toEqual(false);
+  });
+});
+
+describe("incrementShapesDropped", () => {
+  it("should increment the number of shapes dropped.", () => {
+    const state = { shapesDropped: 0 };
+    const reducer = gameStatusReducer(state, {
+      type: actionTypes.INCREMENT_SHAPES_DROPPED
+    });
+    expect(reducer.shapesDropped).toEqual(1);
   });
 });

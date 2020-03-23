@@ -17,11 +17,12 @@ const initialState = {
   gameOver: false,
   playing: true,
   multiplier: 1,
-  shapesDropped: 0
+  shapesDropped: 0,
+  paused: false
 };
 
 const updateScore = (state, action) => {
-  /** */
+  /** Updates the score. */
   let baseScore = 1;
 
   if (action.triggerReason === "deleteRow") {
@@ -52,6 +53,18 @@ const gameOver = state => {
   });
 };
 
+const pauseGame = state => {
+  return updateObject(state, { paused: true });
+};
+
+const resumeGame = state => {
+  return updateObject(state, { paused: false });
+};
+
+const incrementShapesDropped = state => {
+  return updateObject(state, { shapesDropped: state.shapesDropped + 1 });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_SCORE:
@@ -60,6 +73,12 @@ const reducer = (state = initialState, action) => {
       return nextLevel(state);
     case actionTypes.GAME_OVER:
       return gameOver(state);
+    case actionTypes.PAUSE_GAME:
+      return pauseGame(state);
+    case actionTypes.RESUME_GAME:
+      return resumeGame(state);
+    case actionTypes.INCREMENT_SHAPES_DROPPED:
+      return incrementShapesDropped(state);
     default:
       return state;
   }

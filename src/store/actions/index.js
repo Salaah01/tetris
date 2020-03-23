@@ -5,4 +5,10 @@ export {
   deleteRow
 } from "./gameGrid";
 
-export { updateScore, gameOver } from "./gameStatus";
+export {
+  updateScore,
+  gameOver,
+  pauseGame,
+  resumeGame,
+  incrementShapesDropped
+} from "./gameStatus";

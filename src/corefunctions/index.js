@@ -3,4 +3,4 @@
  * package.
  */
 
- export { updateObject } from './updateObject'
+export { updateObject } from "./updateObject";

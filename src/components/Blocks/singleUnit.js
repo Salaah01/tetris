@@ -10,7 +10,6 @@ const blockUnit = props => (
       gridRow: `row ${props.row}`,
       gridColumn: `col ${props.col}`,
       backgroundColor: props.colour,
-      border: '.5px solid black'
     }}
   ></div>
 );

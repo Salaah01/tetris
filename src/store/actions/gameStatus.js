@@ -22,8 +22,28 @@ export const updateScore = (triggerReason, xMax) => {
 
 export const gameOver = () => {
   /**Action to indicate game over. */
-
   return {
     type: actionTypes.GAME_OVER
+  };
+};
+
+export const pauseGame = () => {
+  /**Action to pause the game. */
+  return {
+    type: actionTypes.PAUSE_GAME
+  };
+};
+
+export const resumeGame = () => {
+  /**Action to resume the game. */
+  return {
+    type: actionTypes.RESUME_GAME
+  };
+};
+
+export const incrementShapesDropped = () => {
+  /**Action to increment shapes dropped. */
+  return {
+    type: actionTypes.INCREMENT_SHAPES_DROPPED
   };
 };
