@@ -34,6 +34,9 @@ class BaseShape extends Component {
         }
         if (this.props.playing) {
           this.props.onIncrementShapesDropped();
+          // Check if user should move onto the next level, and if so update the
+          // level.
+          this.props.onNextLevel(this.props.shapesDropped);
           this.props.onStartDropNewBlock();
         }
       }
@@ -347,6 +350,7 @@ export const mapDispatchToProps = dispatch => {
     onUpdateScore: (triggerReason, xMax) =>
       dispatch(actions.updateScore(triggerReason, xMax)),
     onGameOver: () => dispatch(actions.gameOver()),
-    onIncrementShapesDropped: () => dispatch(actions.incrementShapesDropped())
+    onIncrementShapesDropped: () => dispatch(actions.incrementShapesDropped()),
+    onNextLevel: shapesDropped => dispatch(actions.nextLevel(shapesDropped))
   };
 };

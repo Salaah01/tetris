@@ -22,28 +22,25 @@ export const updateScore = (triggerReason, xMax) => {
 
 export const gameOver = () => {
   /**Action to indicate game over. */
-  return {
-    type: actionTypes.GAME_OVER
-  };
+  return { type: actionTypes.GAME_OVER };
 };
 
 export const pauseGame = () => {
   /**Action to pause the game. */
-  return {
-    type: actionTypes.PAUSE_GAME
-  };
+  return { type: actionTypes.PAUSE_GAME };
 };
 
 export const resumeGame = () => {
   /**Action to resume the game. */
-  return {
-    type: actionTypes.RESUME_GAME
-  };
+  return { type: actionTypes.RESUME_GAME };
 };
 
 export const incrementShapesDropped = () => {
   /**Action to increment shapes dropped. */
-  return {
-    type: actionTypes.INCREMENT_SHAPES_DROPPED
-  };
+  return { type: actionTypes.INCREMENT_SHAPES_DROPPED };
+};
+
+export const nextLevel = shapesDropped => {
+  /**Action to move onto the next level. */
+  return { type: actionTypes.NEXT_LEVEL, shapesDropped: shapesDropped };
 };

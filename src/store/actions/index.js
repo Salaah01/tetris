@@ -10,5 +10,6 @@ export {
   gameOver,
   pauseGame,
   resumeGame,
-  incrementShapesDropped
+  incrementShapesDropped,
+  nextLevel
 } from "./gameStatus";

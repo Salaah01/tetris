@@ -18,8 +18,14 @@ const initialState = {
   playing: true,
   multiplier: 1,
   shapesDropped: 0,
+  blocksForLevelCheckpoints: [],
   paused: false
 };
+
+// Build blocksForLevelCheckpoints
+for (let i = 2; i <= 99; i++) {
+  initialState.blocksForLevelCheckpoints.push(Math.ceil((i * 5) ** 1.2));
+}
 
 const updateScore = (state, action) => {
   /** Updates the score. */
@@ -39,11 +45,20 @@ const updateScore = (state, action) => {
   });
 };
 
-const nextLevel = state => {
-  return updateObject(state, {
-    level: state.level + 1,
-    multiplier: state.multiplier + state.level / 10
-  });
+const nextLevel = (state, action) => {
+  /**Progress onto the next level if action.shapesDropped is equal to the first
+   * element in blocksForLevelCheckpoints.
+   */
+  console.log(action.shapesDropped, state.blocksForLevelCheckpoints[0]);
+  if (action.shapesDropped === state.blocksForLevelCheckpoints[0]) {
+    return updateObject(state, {
+      level: state.level + 1,
+      multiplier: state.multiplier + state.level / 10,
+      blocksForLevelCheckpoints: state.blocksForLevelCheckpoints.slice(1)
+    });
+  } else {
+    return state;
+  }
 };
 
 const gameOver = state => {
@@ -70,7 +85,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_SCORE:
       return updateScore(state, action);
     case actionTypes.NEXT_LEVEL:
-      return nextLevel(state);
+      return nextLevel(state, action);
     case actionTypes.GAME_OVER:
       return gameOver(state);
     case actionTypes.PAUSE_GAME:

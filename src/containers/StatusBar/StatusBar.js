@@ -8,13 +8,19 @@ import * as actions from "../../store/actions/index";
 
 class StatusBar extends Component {
   render() {
-    return <div className={classes.StatusBar}><h1>Score: {this.props.score}</h1></div>;
+    return (
+      <div className={classes.StatusBar}>
+        <h1>Level: {this.props.level}</h1>
+        <h1>Score: {this.props.score}</h1>
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    score: state.gameStatus.score
+    score: state.gameStatus.score,
+    level: state.gameStatus.level
   };
 };
 

@@ -8,6 +8,7 @@ import "../../assets/SCSS/arrows.scss";
 import * as actions from "../../store/actions/index";
 
 class Controls extends Component {
+
   moveLeftHandler = () => {
     /**Clicks the move left hidden button. */
     if (document.getElementById("move-left-btn")) {
@@ -86,7 +87,8 @@ class Controls extends Component {
 
 const mapStateToProps = state => {
   return {
-    paused: state.gameStatus.paused
+    paused: state.gameStatus.paused,
+    shapesDropped: state.gameStatus.shapesDropped
   };
 };
 

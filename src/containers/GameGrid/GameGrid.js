@@ -45,7 +45,6 @@ class GameGrid extends Component {
   };
 
   render() {
-
     let shape = l;
     if (this.props.dropBlock) {
       shape = newComponent();
@@ -77,7 +76,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock())
+    onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock()),
+    onShapeDropped: () => dispatch(actions.incrementShapesDropped()),
   };
 };
 

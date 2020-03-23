@@ -1,13 +1,13 @@
 import gameStatusReducer from "./gameStatus";
 import * as actionTypes from "../actions/actionTypes";
-import reducer from "./gameStatus";
 
 const initialState = {
   gameOver: false,
   playing: true,
   score: 5,
   multiplier: 2,
-  paused: false
+  paused: false,
+  level: 1
 };
 
 for (let gridRow = 1; gridRow <= initialState.yMax; gridRow++) {
@@ -91,5 +91,50 @@ describe("incrementShapesDropped", () => {
       type: actionTypes.INCREMENT_SHAPES_DROPPED
     });
     expect(reducer.shapesDropped).toEqual(1);
+  });
+});
+
+describe("nextLevel", () => {
+  let state;
+  let reducer;
+  beforeEach(() => {
+    state = {
+      level: 5,
+      blocksForLevelCheckpoints: [5, 10, 15],
+      shapesDropped: 5
+    };
+
+    reducer = gameStatusReducer(state, {
+      type: actionTypes.NEXT_LEVEL,
+      shapesDropped: 5
+    });
+  });
+
+  it("should increment the level by on next shape drop", () => {
+    expect(reducer.level).toEqual(6);
+  });
+
+  it("should remove the first element from blocksForLevelCheckpoints", () => {
+    expect(reducer.blocksForLevelCheckpoints).toEqual([10, 15]);
+  });
+
+  it("should not mutate the original state", () => {
+    expect(state).toEqual({
+      level: 5,
+      blocksForLevelCheckpoints: [5, 10, 15],
+      shapesDropped: 5
+    });
+  });
+
+  it("should not update the level if the shapesBlocked isn't equal to the first element in blocksForLevelCheckpoints.", () => {
+    state = { ...state, shapesDropped: 10 };
+    reducer = gameStatusReducer(state, { type: actionTypes.NEXT_LEVEL });
+    expect(reducer.level).toEqual(5);
+  });
+
+  it("should not update blocksForLevelCheckpoints if the shapesBlocked variable isn't equal to the first element in blocksForLevelCheckpoints.", () => {
+    state = { ...state, shapesDropped: 10 };
+    reducer = gameStatusReducer(state, { type: actionTypes.NEXT_LEVEL });
+    expect(reducer.blocksForLevelCheckpoints).toEqual([5, 10, 15]);
   });
 });
