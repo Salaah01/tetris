@@ -12,6 +12,7 @@ class StatusBar extends Component {
       <div className={classes.StatusBar}>
         <h1>Level: {this.props.level}</h1>
         <h1>Score: {this.props.score}</h1>
+        <h1>Lines: {this.props.linesCleared}</h1>
       </div>
     );
   }
@@ -20,7 +21,8 @@ class StatusBar extends Component {
 const mapStateToProps = state => {
   return {
     score: state.gameStatus.score,
-    level: state.gameStatus.level
+    level: state.gameStatus.level,
+    linesCleared: state.gameStatus.linesCleared
   };
 };
 

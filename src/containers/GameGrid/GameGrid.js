@@ -55,7 +55,8 @@ class GameGrid extends Component {
         className={classes.GameGrid}
         style={{
           gridTemplateRows: `repeat(${this.props.yMax}, [row] calc(100%/${this.props.yMax}))`,
-          gridTemplateColumns: `repeat(${this.props.xMax}, [col] calc(100% / ${this.props.xMax}))`
+          gridTemplateColumns: `repeat(${this.props.xMax}, [col] calc(100% / ${this.props.xMax}))`,
+          width: `calc(45px * ${this.props.xMax})`
         }}
       >
         {this.materialiseGrid()}

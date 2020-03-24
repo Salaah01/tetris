@@ -11,5 +11,6 @@ export {
   pauseGame,
   resumeGame,
   incrementShapesDropped,
-  nextLevel
+  nextLevel,
+  incrementClearedLines
 } from "./gameStatus";

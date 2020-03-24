@@ -10,7 +10,9 @@ class TestBaseShape extends BaseShape {
     props = {
       genericState: {},
       yMax: 22,
-      onUpdateScore: (_1, _2) => true
+      onUpdateScore: (_1, _2) => true,
+      onIncrementLineCleared: () => undefined
+
     };
     super(props);
   }
@@ -84,7 +86,7 @@ describe("gridPositionsFree method", () => {
         row1: [false, false, false, false],
         row2: [false, false, false, false],
         row3: [false, false, false, false]
-      }
+      },
     };
   });
 

@@ -15,6 +15,7 @@ const initialState = {
   level: 1,
   blocksPlayed: 0,
   speed: 750,
+  linesCleared: 0,
   gameOver: false,
   playing: true,
   multiplier: 1,
@@ -50,7 +51,6 @@ const nextLevel = (state, action) => {
   /**Progress onto the next level if action.shapesDropped is equal to the first
    * element in blocksForLevelCheckpoints.
    */
-  console.log(action.shapesDropped, state.blocksForLevelCheckpoints[0]);
   if (action.shapesDropped === state.blocksForLevelCheckpoints[0]) {
     return updateObject(state, {
       level: state.level + 1,
@@ -82,6 +82,10 @@ const incrementShapesDropped = state => {
   return updateObject(state, { shapesDropped: state.shapesDropped + 1 });
 };
 
+const incrementClearedLines = state => {
+  return updateObject(state, { linesCleared: state.linesCleared + 1 });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.UPDATE_SCORE:
@@ -96,6 +100,8 @@ const reducer = (state = initialState, action) => {
       return resumeGame(state);
     case actionTypes.INCREMENT_SHAPES_DROPPED:
       return incrementShapesDropped(state);
+    case actionTypes.INCREMENT_CLEARED_LINES:
+      return incrementClearedLines(state);
     default:
       return state;
   }

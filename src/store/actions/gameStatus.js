@@ -44,3 +44,8 @@ export const nextLevel = shapesDropped => {
   /**Action to move onto the next level. */
   return { type: actionTypes.NEXT_LEVEL, shapesDropped: shapesDropped };
 };
+
+export const incrementClearedLines = () => {
+  /**Action to increment the number of lines cleared. */
+  return { type: actionTypes.INCREMENT_CLEARED_LINES };
+};

@@ -10,7 +10,7 @@ import { updateObject } from "../../corefunctions";
 
 const initialState = {
   shapeUnitsCount: 0,
-  xMax: 20,
+  xMax: 10,
   yMax: 20,
   dropBlock: true,
   grid: {}

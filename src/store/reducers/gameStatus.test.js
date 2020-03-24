@@ -150,3 +150,13 @@ describe("nextLevel", () => {
     expect(reducer.speed).toEqual(500);
   });
 });
+
+describe("incrementClearedLines", () => {
+  it("should increment the clearedLine variable.", () => {
+    const state = { linesCleared: 5 };
+    const reducer = gameStatusReducer(state, {
+      type: actionTypes.INCREMENT_CLEARED_LINES
+    });
+    expect(reducer.linesCleared).toEqual(6);
+  });
+});

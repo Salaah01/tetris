@@ -104,6 +104,8 @@ class BaseShape extends Component {
       if (!grid[colName].filter(rowElem => rowElem === false).length) {
         // Update the score.
         this.props.onUpdateScore("deleteRow", this.props.yMax);
+        // Update the number of lines cleared.
+        this.props.onIncrementLineCleared();
 
         const reversedSubKeys = reversedKeys.slice(
           reversedKeys.indexOf(colName)
@@ -353,6 +355,7 @@ export const mapDispatchToProps = dispatch => {
       dispatch(actions.updateScore(triggerReason, xMax)),
     onGameOver: () => dispatch(actions.gameOver()),
     onIncrementShapesDropped: () => dispatch(actions.incrementShapesDropped()),
-    onNextLevel: shapesDropped => dispatch(actions.nextLevel(shapesDropped))
+    onNextLevel: shapesDropped => dispatch(actions.nextLevel(shapesDropped)),
+    onIncrementLineCleared: () => dispatch(actions.incrementClearedLines())
   };
 };
