@@ -101,7 +101,8 @@ describe("nextLevel", () => {
     state = {
       level: 5,
       blocksForLevelCheckpoints: [5, 10, 15],
-      shapesDropped: 5
+      shapesDropped: 5,
+      speed: 500
     };
 
     reducer = gameStatusReducer(state, {
@@ -118,11 +119,16 @@ describe("nextLevel", () => {
     expect(reducer.blocksForLevelCheckpoints).toEqual([10, 15]);
   });
 
+  it("should update the speed", () => {
+    expect(reducer.speed).toEqual(476);
+  });
+
   it("should not mutate the original state", () => {
     expect(state).toEqual({
       level: 5,
       blocksForLevelCheckpoints: [5, 10, 15],
-      shapesDropped: 5
+      shapesDropped: 5,
+      speed: 500
     });
   });
 
@@ -136,5 +142,11 @@ describe("nextLevel", () => {
     state = { ...state, shapesDropped: 10 };
     reducer = gameStatusReducer(state, { type: actionTypes.NEXT_LEVEL });
     expect(reducer.blocksForLevelCheckpoints).toEqual([5, 10, 15]);
+  });
+
+  it("should not update spreed if the shapesBlocked variable isn't equal to the first element in blocksForLevelCheckpoints.", () => {
+    state = { ...state, shapesDropped: 10 };
+    reducer = gameStatusReducer(state, { type: actionTypes.NEXT_LEVEL });
+    expect(reducer.speed).toEqual(500);
   });
 });

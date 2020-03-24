@@ -14,6 +14,7 @@ const initialState = {
   score: 0,
   level: 1,
   blocksPlayed: 0,
+  speed: 750,
   gameOver: false,
   playing: true,
   multiplier: 1,
@@ -54,6 +55,7 @@ const nextLevel = (state, action) => {
     return updateObject(state, {
       level: state.level + 1,
       multiplier: state.multiplier + state.level / 10,
+      speed: Math.max(Math.floor(state.speed / (1 + state.level / 100)), 0),
       blocksForLevelCheckpoints: state.blocksForLevelCheckpoints.slice(1)
     });
   } else {

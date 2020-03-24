@@ -77,7 +77,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onStopDropNewBlock: () => dispatch(actions.stopDropNewBlock()),
-    onShapeDropped: () => dispatch(actions.incrementShapesDropped()),
+    onShapeDropped: () => dispatch(actions.incrementShapesDropped())
   };
 };
 

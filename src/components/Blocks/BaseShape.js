@@ -40,7 +40,7 @@ class BaseShape extends Component {
           this.props.onStartDropNewBlock();
         }
       }
-    }, 185);
+    }, this.props.speed);
   }
 
   dropBlockIfPossibleHandler = (userTrigger = false) => {
@@ -337,7 +337,9 @@ export const mapStateToProps = state => {
     dropBlock: state.gameGrid.dropBlock,
     playing: state.gameStatus.playing,
     paused: state.gameStatus.paused,
-    shapesDropped: state.gameStatus.shapesDropped
+    shapesDropped: state.gameStatus.shapesDropped,
+    level: state.gameStatus.level,
+    speed: state.gameStatus.speed
   };
 };
 
