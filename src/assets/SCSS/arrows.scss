@@ -345,3 +345,28 @@
     transform: rotate(-360deg);
   }
 }
+
+// Custom changes to colour.
+.arrow:before {
+  background-color: #ffcf00;
+}
+
+.arrow-left:after {
+  border-right-color: #ffcf00;
+}
+
+.arrow-right:after {
+  border-left-color: #ffcf00;
+}
+
+.arrow-down:after {
+  border-top-color: #ffcf00;
+}
+
+.arrow-up:after {
+  border-bottom-color: #ffcf00;
+}
+
+.arrow-up.curve-right .curve:before {
+  border-color: #ffcf00;
+}

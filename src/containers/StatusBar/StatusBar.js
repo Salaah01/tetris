@@ -10,9 +10,9 @@ class StatusBar extends Component {
   render() {
     return (
       <div className={classes.StatusBar}>
-        <h1>Level: {this.props.level}</h1>
-        <h1>Score: {this.props.score}</h1>
-        <h1>Lines: {this.props.linesCleared}</h1>
+        <p>Level: {this.props.level}</p>
+        <p>Score: {this.props.score}</p>
+        <p>Lines: {this.props.linesCleared}</p>
       </div>
     );
   }

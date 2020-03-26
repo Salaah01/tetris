@@ -1,3 +1,41 @@
 .Controls {
+  grid-column: 1/-1;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
 
+.Buttons {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.LeftBtn {
+  grid-column: 2;
+}
+
+.DownBtn {
+  grid-row: 1;
+  grid-column: 3;
+}
+
+.RightBtn {
+  grid-column: 4;
+}
+
+.RotateBtn {
+  grid-column: 5;
+  grid-row: 1;
+}
+
+.PauseBtn {
+  grid-column: 8;
+  background-color: #ffcf00;
+}
+
+.ResumeBtn {
+  grid-column: 8;
+  background-color: #e2b900;
+  display: none;
 }

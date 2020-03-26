@@ -1,6 +1,6 @@
 .GameGrid {
   width: 1000px;
-  height: 80vh;
+  height: 75vh;
   background-color: rgba(255, 255, 255, 0.25);
   box-shadow: 0px 0px 25px rgba(255, 255, 255, 0.55);
   margin: 30px;
@@ -14,9 +14,7 @@
   height: 100%;
   &__unfilled {
     // Available grid spaces.
-    // display: none;
-  border: .5px solid rgba($color: #363636, $alpha: .15);
-
+    border: 0.5px solid rgba($color: #363636, $alpha: 0.15);
   }
 
   &__filled {

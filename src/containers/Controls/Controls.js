@@ -8,7 +8,6 @@ import "../../assets/SCSS/arrows.scss";
 import * as actions from "../../store/actions/index";
 
 class Controls extends Component {
-
   moveLeftHandler = () => {
     /**Clicks the move left hidden button. */
     if (document.getElementById("move-left-btn")) {
@@ -64,22 +63,38 @@ class Controls extends Component {
 
     return (
       <div className={classes.Controls}>
-        <button id="ctrl-move-left" onClick={this.moveLeftHandler}>
+        <button
+          id="ctrl-move-left"
+          onClick={this.moveLeftHandler}
+          className={`${classes.Buttons} ${classes.LeftBtn}`}
+        >
           <span className="arrow arrow-left"></span>
         </button>
-        <button id="ctrl-move-right" onClick={this.moveRightHandler}>
+        <button
+          id="ctrl-move-right"
+          onClick={this.moveRightHandler}
+          className={`${classes.Buttons} ${classes.RightBtn}`}
+        >
           <span className="arrow arrow-right"></span>
         </button>
-        <button id="ctrl-move-down" onClick={this.moveDownHandler}>
+        <button
+          id="ctrl-move-down"
+          onClick={this.moveDownHandler}
+          className={`${classes.Buttons} ${classes.DownBtn}`}
+        >
           <span className="arrow arrow-down"></span>
         </button>
-        <button id="ctrl-rotate" onClick={this.rotateHandler}>
+        <button
+          id="ctrl-rotate"
+          onClick={this.rotateHandler}
+          className={`${classes.Buttons} ${classes.RotateBtn}`}
+        >
           <span class="arrow arrow-up curve-right">
             <span class="curve"></span>
           </span>
         </button>
-        <button onClick={this.props.pauseGame}>Pause Game</button>
-        <button onClick={this.props.resumeGame}>Resume Game</button>
+        <button onClick={this.props.pauseGame} className={`${classes.Buttons} ${classes.PauseBtn}`}>Pause Game</button>
+        <button onClick={this.props.resumeGame} className={`${classes.Buttons} ${classes.ResumeBtn}`}>Resume Game</button>
       </div>
     );
   }
