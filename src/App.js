@@ -2,14 +2,16 @@
 import React, { Component, Fragment } from "react";
 
 // Local imports
+import Menu from "./components/Menu/Menu";
 import GridGame from "./containers/GameGrid/GameGrid";
 import StatusBar from "./containers/StatusBar/StatusBar";
-import Controls from './containers/Controls/Controls'
+import Controls from "./containers/Controls/Controls";
 
 class App extends Component {
   render() {
     return (
       <Fragment>
+        <Menu />
         <GridGame />
         <StatusBar />
         <Controls />
