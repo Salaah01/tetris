@@ -11,3 +11,6 @@ export const PAUSE_GAME = "PAUSE_GAME";
 export const RESUME_GAME = "RESUME_GAME";
 export const INCREMENT_SHAPES_DROPPED = "INCREMENT_SHAPES_DROPPED";
 export const INCREMENT_CLEARED_LINES = "INCREMENT_CLEARED_LINES";
+export const SHOW_MENU = "SHOW_MENU";
+export const HIDE_MENU = "HIDE_MENU";
+export const NEW_GAME = "NEW_GAME";

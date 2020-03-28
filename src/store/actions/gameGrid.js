@@ -6,6 +6,7 @@
  *  startDropNewBlock: Action to start dropping new blocks.
  *  stopDropNewBlock: Action to stop dropping new blocks.
  *  deleteRow: Action to delete a row.
+ *  newGame: Action to start a new game.
  */
 
 // Third Party Imports
@@ -59,3 +60,8 @@ export const deleteRow = () => {
     type: actionTypes.DELETE_ROW
   };
 };
+
+export const newGame = () => {
+  /**Action to start a new game. */
+  return { type: actionTypes.NEW_GAME };
+}

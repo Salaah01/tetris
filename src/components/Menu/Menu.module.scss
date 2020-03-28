@@ -1,0 +1,68 @@
+.Menu {
+  position: fixed;
+  z-index: -100;
+  opacity: 0;
+  left: 50%;
+  top: 50%;
+  border-radius: 2rem;
+  transform: translate(-50%, 500%);
+  padding: 5rem 4rem 6rem;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  transition: 0.5s ease-out;
+  border: 0.1rem solid #000;
+  background-image: linear-gradient(
+      180deg,
+      rgba(#e67e22, 0.9),
+      rgba(#5d2e05, 0.95)
+    ),
+    url(../../assets/images/menu-bg.png);
+
+  @media screen and (max-width: 400px) {
+    width: 80vw;
+    padding: 3rem 2rem 4rem;
+  }
+}
+
+.Open {
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  opacity: 100%;
+}
+
+.Heading {
+  color: #fff;
+  text-align: center;
+  font-weight: 400;
+  font-size: 40px;
+  font-family: "Lato", sans-serif;
+  margin-bottom: 2rem;
+}
+
+.Btn {
+  display: block;
+  background-color: #0bbfe6;
+  color: #055466;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  width: 25rem;
+  border: 0.25rem solid #0889a6;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-weight: 700;
+
+  &:not(:last-of-type) {
+    margin-bottom: 1rem;
+  }
+
+  &:hover {
+    background-color: #0cc8f2;
+    color: #086479;
+  }
+
+  @media only screen and (max-width: 400px) {
+    width: 100%;
+  }
+}

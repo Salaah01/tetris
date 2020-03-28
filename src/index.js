@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 
 // Local Imports
 import * as serviceWorker from "./serviceWorker";
-import "./index.css";
+import "./index.scss";
 import App from "./App";
 import gameGridReducer from "./store/reducers/gameGrid";
 import gameStatusReducer from './store/reducers/gameStatus'

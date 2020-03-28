@@ -1,3 +1,5 @@
+/**Unittests for the gameStatus module. */
+
 import gameStatusReducer from "./gameStatus";
 import * as actionTypes from "../actions/actionTypes";
 
@@ -7,7 +9,8 @@ const initialState = {
   score: 5,
   multiplier: 2,
   paused: false,
-  level: 1
+  level: 1,
+  shapesDropped: 0
 };
 
 for (let gridRow = 1; gridRow <= initialState.yMax; gridRow++) {
@@ -160,3 +163,27 @@ describe("incrementClearedLines", () => {
     expect(reducer.linesCleared).toEqual(6);
   });
 });
+
+describe("newGame", () => {
+  const state = {
+      shapesDropped: 20,
+      level: 999
+    }
+    const reducer = gameStatusReducer(state, {
+      type: actionTypes.NEW_GAME
+    })
+
+  it("should reset the state to the initial state.", () => {
+    
+    expect(reducer.level).toEqual(initialState.level)
+    expect(reducer.shapesDropped).toEqual(initialState.shapesDropped)
+  })
+  
+  it("should should set paused to false.", () => {
+    expect(reducer.paused).toEqual(false)
+  })
+
+  it("should set playing to true.", () => {
+    expect(reducer.playing).toEqual(true)
+  })
+})

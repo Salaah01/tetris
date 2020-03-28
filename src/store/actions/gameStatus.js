@@ -1,5 +1,12 @@
 /**Contains the redux actions related to the game status. These include:
  *  updateScore: Action to update the current score.
+ *  gameOver: Action to set the gameOver to true.
+ *  pauseGame: Action to pause the game.
+ *  resumeGaame: Action to resumee the game.
+ *  incrementShapesDropped: Action to increment shapesDropped.
+ *  nextLevel: Action to progress onto the next level.
+ *  incrementClearedLines: Action to increment the number of cleared line.
+ *  newGame: Action to start a new game.
  */
 
 // Third Party Imports
@@ -49,3 +56,8 @@ export const incrementClearedLines = () => {
   /**Action to increment the number of lines cleared. */
   return { type: actionTypes.INCREMENT_CLEARED_LINES };
 };
+
+export const newGame = () => {
+  /**Action to start a new game. */
+  return { type: actionTypes.NEW_GAME };
+}
