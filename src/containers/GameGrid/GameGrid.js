@@ -14,15 +14,6 @@ const newComponent = props => {
 const l = [];
 
 class GameGrid extends Component {
-
-  componentDidMount() {
-    // By calling the method, immediately when the block starts to drop the
-    // shapesDropped in the store is incremented. By having a starting value
-    // of 0 and incrementing it immediately, we can check if a game has
-    // starting or not by checking if the value is truthy.
-    this.props.onShapeDropped();
-  }
-
   materialiseGrid = () => {
     let gridElems = [];
 
@@ -34,7 +25,7 @@ class GameGrid extends Component {
               this.props.grid[row][col - 1]
                 ? classes.Blocks__filled
                 : classes.Blocks__unfilled
-              }`}
+            }`}
             style={{
               gridRow: "row " + row.split("row")[1],
               gridColumn: "col " + col,
