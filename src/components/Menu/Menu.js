@@ -13,15 +13,11 @@ const menu = props => {
     console.log("new game");
   };
 
-  const resumeGameHandler = () => {
-    console.log("resume");
-  };
-
   let menuClasses;
-  if (props.show) {
+  if (props.paused) {
     menuClasses = [classes.Menu, classes.Open];
   } else {
-    menuClasses = [classes.Menu, classes.Close];
+    menuClasses = [classes.Menu];
   }
 
   return (
@@ -34,7 +30,7 @@ const menu = props => {
       </button>
       <button
         className={`${classes.Btn} ${classes.BtnResume}`}
-        onClick={resumeGameHandler}
+        onClick={props.resumeGame}
       >
         Resume
       </button>
@@ -42,10 +38,16 @@ const menu = props => {
   );
 };
 
+const mapStateToProps = state => {
+  return {
+    paused: state.gameStatus.paused
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
-    resumeGame: () => dispatch(actions.resumeGame())
+    resumeGame: () => dispatch(actions.resumeGame()),
   };
 };
 
-export default connect(null, mapDispatchToProps)(menu);
+export default connect(mapStateToProps, mapDispatchToProps)(menu);

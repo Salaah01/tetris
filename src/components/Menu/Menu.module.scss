@@ -1,11 +1,36 @@
+@keyframes openMenu {
+    0% {
+        z-index: 1000;
+    }
+    100% {
+        transform: translate(-50%, -50%);
+        opacity: 100;
+        z-index: 1000;
+
+    }
+}
+
 .Menu {
-  position: absolute;
+  position: fixed;
+  z-index: -100;
+  opacity: 0;
   width: 25vw;
   height: 20vh;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 500%);
   background-color: rgba(255, 255, 255, 0.25);
+  transition: .5s ease-out;
+}
+
+.Open {
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    opacity: 100%;
+    // animation-name: openMenu;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
 }
 
 .Btn {
