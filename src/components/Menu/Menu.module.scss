@@ -2,13 +2,15 @@
   position: fixed;
   z-index: -100;
   opacity: 0;
-  width: 25vw;
-  height: 20vh;
   left: 50%;
   top: 50%;
+  border-radius: 2rem;
   transform: translate(-50%, 500%);
-  background-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(#e67e22, .9);
+  padding: 5rem 4rem 6rem;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   transition: .5s ease-out;
+  border: .5rem solid #c46716;
 }
 
 .Open {
@@ -17,6 +19,36 @@
     opacity: 100%;
 }
 
+.Heading {
+    color: #fff;
+    text-align: center;
+    font-weight: 400;
+    font-size: 40px;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 2rem;
+}
+
 .Btn {
-  background-color: blue($color: #000000);
+  display: block;
+  background-color: #0BBFE6;
+  color: #055466;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1rem 2rem;
+  border-radius: .5rem;
+  width: 25rem;
+  border: .25rem solid #0889A6;
+  text-transform: uppercase;
+  letter-spacing: .1rem;
+  font-weight: 700;
+  
+  &:not(:last-of-type) {
+    margin-bottom: 1rem;
+  }
+
+  &:hover {
+    background-color: #0CC8F2;
+    color: #086479;
+  }
 }

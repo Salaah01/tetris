@@ -1,11 +1,29 @@
-body {
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: inherit;
+}
+
+body {
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'Lato', sans-serif;
+  font-size: 1.6rem;
+}
+
+button {
+    cursor: pointer;
+    transition: all .3s ease;
 }
 
 #root {
+  position: fixed;
   width: 100vw;
   height: 100vh;
   background-color: rgb(241, 241, 241);

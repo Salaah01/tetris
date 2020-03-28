@@ -9,10 +9,6 @@ import classes from "./Menu.module.scss";
 import * as actions from "../../store/actions";
 
 const menu = props => {
-  const newGameHandler = () => {
-    console.log("new game");
-  };
-
   let menuClasses;
   if (props.paused) {
     menuClasses = [classes.Menu, classes.Open];
@@ -22,7 +18,7 @@ const menu = props => {
 
   return (
     <div className={menuClasses.join(" ")}>
-      <h1>{props.shapesDropped ? 'Paused' + props.shapesDropped: props.shapesDropped}</h1>
+      <h1 className={classes.Heading}>{props.shapesDropped ? 'Paused': 'Tetris'}</h1>
       <button
         className={`${classes.Btn} ${classes.BtnNewGame}`}
         onClick={props.onNewGame}
