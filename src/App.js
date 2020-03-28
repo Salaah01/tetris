@@ -2,6 +2,7 @@
 import React, { Component, Fragment } from "react";
 
 // Local imports
+import BackDrop from './components/UI/Backdrop/Backdrop'
 import Menu from "./components/Menu/Menu";
 import GridGame from "./containers/GameGrid/GameGrid";
 import StatusBar from "./containers/StatusBar/StatusBar";
@@ -11,6 +12,7 @@ class App extends Component {
   render() {
     return (
       <Fragment>
+        <BackDrop />
         <Menu />
         <GridGame />
         <StatusBar />

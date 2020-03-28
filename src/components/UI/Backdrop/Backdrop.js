@@ -2,14 +2,21 @@
 
 // Third Party Imports
 import React from "react";
+import { connect } from 'react-redux'
 
 // Local Imports
-import classes from "./Backdrop.css";
+import classes from "./Backdrop.module.scss";
 
 const backdrop = props =>
   /**Renders a semi-transparent grey overlay across the entire screen. */
-  props.show ? (
+  props.paused ? (
     <div className={classes.Backdrop} onClick={props.clicked}></div>
   ) : null;
 
-export default backdrop;
+const mapStateToProps = state => {
+  return {
+    paused: state.gameStatus.paused
+  }
+}
+
+export default connect(mapStateToProps, null)(backdrop);
