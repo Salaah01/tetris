@@ -1,7 +1,15 @@
 /**Contains the redux reducers related to the game grid. These include:
- *  updateScore: Action to update the current score.
+ *  updateScore: Updates the current score. This depends on whether the user
+ *    has removed a complete row or manually moved the block down.
  *  nextLevel: Progresses the name to the next level by updating the level
  *    and the score multiplier.
+ *  gameOver: Indicates that the game is over by setting playing to false and
+ *    gameOver to true.
+ *  pauseGame: Pauses the game by setting paused to true.
+ *  resumeGame: Resumes the game by setting paused to false.
+ *  incrementShapesDropped: Increments the number of shapes dropped.
+ *  incrementClearedLines: Increments the number of lines cleared.
+ *  newGame: Starts a new game by resetting the state to the intial state.
  */
 
 // Third Party Imports
@@ -13,21 +21,21 @@ import { updateObject } from "../../corefunctions";
 const initialState = {
   score: 0,
   level: 1,
-  blocksPlayed: 0,
   speed: 750,
   linesCleared: 0,
   gameOver: false,
-  playing: true,
+  playing: false,
   multiplier: 1,
   shapesDropped: 0,
-  blocksForLevelCheckpoints: [],
-  paused: false
+  paused: true,
+  blocksForLevelCheckpoints: (() => {
+    const blocksArray = []
+    for (let i = 2; i <= 99; i++) {
+      blocksArray.push(Math.ceil((i * 5) ** 1.2));
+    }
+    return blocksArray
+  })()
 };
-
-// Build blocksForLevelCheckpoints
-for (let i = 2; i <= 99; i++) {
-  initialState.blocksForLevelCheckpoints.push(Math.ceil((i * 5) ** 1.2));
-}
 
 const updateScore = (state, action) => {
   /** Updates the score. */
@@ -64,6 +72,7 @@ const nextLevel = (state, action) => {
 };
 
 const gameOver = state => {
+  /**Tells the system that it is game over. */
   return updateObject(state, {
     gameOver: true,
     playing: false
@@ -71,22 +80,32 @@ const gameOver = state => {
 };
 
 const pauseGame = state => {
+  /**Pauses the game. */
   return updateObject(state, { paused: true });
 };
 
 const resumeGame = state => {
+  /**Resumes the game. */
   return updateObject(state, { paused: false });
 };
 
 const incrementShapesDropped = state => {
+  /**Increments shapesDropped. */
   return updateObject(state, { shapesDropped: state.shapesDropped + 1 });
 };
 
 const incrementClearedLines = state => {
+  /**Increaments linesCleared. */
   return updateObject(state, { linesCleared: state.linesCleared + 1 });
 };
 
+const newGame = state => {
+  /**Start a new game by updating the state to the initial state. */
+  return updateObject(state, {...initialState, playing: true, paused: false})
+}
+
 const reducer = (state = initialState, action) => {
+  /**Dispatches the appropiate action depending on the action.type. */
   switch (action.type) {
     case actionTypes.UPDATE_SCORE:
       return updateScore(state, action);
@@ -102,6 +121,8 @@ const reducer = (state = initialState, action) => {
       return incrementShapesDropped(state);
     case actionTypes.INCREMENT_CLEARED_LINES:
       return incrementClearedLines(state);
+    case actionTypes.NEW_GAME:
+      return newGame(state)
     default:
       return state;
   }

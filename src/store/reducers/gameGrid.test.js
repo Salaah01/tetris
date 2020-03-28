@@ -111,3 +111,11 @@ describe("STOP_DROP_NEW_BLOCK", () => {
     expect(state.dropBlock).toEqual(true);
   });
 });
+
+describe("NEW_GAME", () => {
+  it("should update the state to the initial state.", () => {
+    const state = { shapeUnitsCount: 100 }
+    const reducer = gameGridReducer(state, { type: actionTypes.NEW_GAME })
+    expect(reducer.shapeUnitsCount).toEqual(initialState.shapeUnitsCount)
+  })
+})

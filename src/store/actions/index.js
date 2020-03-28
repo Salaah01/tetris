@@ -2,7 +2,8 @@ export {
     updateGrid,
     startDropNewBlock,
     stopDropNewBlock,
-    deleteRow
+    deleteRow,
+    newGame as gameGrid_newGame
 } from "./gameGrid";
 
 export {
@@ -12,5 +13,6 @@ export {
     nextLevel,
     incrementClearedLines,
     pauseGame,
-    resumeGame
+    resumeGame,
+    newGame as gameStatus_newGame
 } from "./gameStatus";

@@ -22,15 +22,16 @@ const menu = props => {
 
   return (
     <div className={menuClasses.join(" ")}>
+      <h1>{props.shapesDropped ? 'Paused' + props.shapesDropped: props.shapesDropped}</h1>
       <button
         className={`${classes.Btn} ${classes.BtnNewGame}`}
-        onClick={newGameHandler}
+        onClick={props.onNewGame}
       >
         New Game
       </button>
       <button
         className={`${classes.Btn} ${classes.BtnResume}`}
-        onClick={props.resumeGame}
+        onClick={props.onResumeGame}
       >
         Resume
       </button>
@@ -40,13 +41,18 @@ const menu = props => {
 
 const mapStateToProps = state => {
   return {
-    paused: state.gameStatus.paused
+    paused: state.gameStatus.paused,
+    shapesDropped: state.gameStatus.shapesDropped
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    resumeGame: () => dispatch(actions.resumeGame()),
+    onResumeGame: () => dispatch(actions.resumeGame()),
+    onNewGame: () => {
+        dispatch(actions.gameStatus_newGame())
+        dispatch(actions.gameGrid_newGame())
+    }
   };
 };
 
