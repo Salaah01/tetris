@@ -9,6 +9,7 @@
  *  newGame: Action to start a new game.
  *  updateGameStatus: Action to update the current status of the game.
  *    e.g: gameOver, newHighScore, gameNotStarted, etc.
+ *  updateHighScores: Action to update high scores.
  */
 
 // Third Party Imports
@@ -68,5 +69,12 @@ export const updateGameStatus = status => {
   return {
     type: actionTypes.UPDATE_GAME_STATUS,
     status: status
+  };
+};
+
+export const updateHighScores = highScores => {
+  return {
+    type: actionTypes.UPDATE_HIGH_SCORES,
+    highScores: highScores
   };
 };

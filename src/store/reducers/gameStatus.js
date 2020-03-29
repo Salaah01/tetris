@@ -12,6 +12,7 @@
  *  newGame: Starts a new game by resetting the state to the initial state.
  *  updateStatus: Updates the game status which explains what state the game
  *    is in. e.g: gameOver, newHighScore, gameNotStarted, etc.
+ *  updateHighScores: Action to update high scores.
  */
 
 // Third Party Imports
@@ -21,9 +22,28 @@ import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../corefunctions";
 
 export const gameStatuses = {
+  /**Objects containing named variable to be used when updating the game
+   * status.
+   */
   GAME_NOT_STARTED: "GAME_NOT_STARTED",
   GAME_STARTED: "GAME_STARTED",
-  GAME_OVER: "GAME_OVER",
+  GAME_OVER: "GAME_OVER"
+};
+
+const getHighScores = () => {
+  /**Checks the local storage for high scores. With either return an array of
+   * 0s, or an array with the high scores taken form the local storage.
+   */
+  const highScores = [0, 0, 0];
+  const lsHighScores = JSON.parse(localStorage.getItem("highScores"));
+  if (lsHighScores) {
+    for (let idx = 0; idx <= 2; idx++) {
+      if (lsHighScores[idx]) {
+        highScores[idx] = Number(lsHighScores[idx]);
+      }
+    }
+  }
+  return highScores;
 };
 
 const initialState = {
@@ -37,6 +57,7 @@ const initialState = {
   shapesDropped: 0,
   paused: true,
   status: gameStatuses.GAME_NOT_STARTED,
+  highScores: getHighScores(),
   blocksForLevelCheckpoints: (() => {
     const blocksArray = [];
     for (let i = 2; i <= 99; i++) {
@@ -81,10 +102,33 @@ const nextLevel = (state, action) => {
 };
 
 const gameOver = state => {
-  /**Tells the system that it is game over. */
+  /**Tells the system that it is game over and update the local storage if the
+   * user beats a high score.
+   */
+
+  // If gameOver is already true, then avoid updating the store.
+  if (state.gameOver) {
+    return state;
+  }
+
+  let newHighScores = [...state.highScores];
+
+  if (state.score > newHighScores[0]) {
+    newHighScores = [state.score, newHighScores[0], newHighScores[1]];
+  } else if (state.score > newHighScores[1]) {
+    newHighScores = [newHighScores[0], state.score, newHighScores[1]];
+  } else if (state.score > newHighScores[2]) {
+    newHighScores = [newHighScores[0], newHighScores[1], state.score];
+  }
+
+  localStorage.setItem("highScores", JSON.stringify(newHighScores));
+
   return updateObject(state, {
     gameOver: true,
-    playing: false
+    playing: false,
+    paused: true,
+    status: gameStatuses.GAME_OVER,
+    highScores: newHighScores
   });
 };
 
@@ -110,12 +154,23 @@ const incrementClearedLines = state => {
 
 const newGame = state => {
   /**Start a new game by updating the state to the initial state. */
-  return updateObject(state, { ...initialState, playing: true, paused: false });
+  return updateObject(state, {
+    ...initialState,
+    playing: true,
+    paused: false,
+    highScores: getHighScores(),
+    status: gameStatuses.GAME_STARTED
+  });
 };
 
 const updateGameStatus = (state, action) => {
   /**Updates the game status with a new status. */
   return updateObject(state, { status: action.status });
+};
+
+const updateHighScores = (state, action) => {
+  /**Updates the high scores. */
+  return updateObject(state, { highScores: action.highScores });
 };
 
 const reducer = (state = initialState, action) => {
@@ -139,6 +194,8 @@ const reducer = (state = initialState, action) => {
       return newGame(state);
     case actionTypes.UPDATE_GAME_STATUS:
       return updateGameStatus(state, action);
+    case actionTypes.UPDATE_HIGH_SCORES:
+      return updateHighScores(state, action);
     default:
       return state;
   }

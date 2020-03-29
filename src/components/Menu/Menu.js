@@ -22,7 +22,6 @@ const menu = props => {
   const newGameHandler = () => {
     props.onNewGame();
     props.onShapeDropped();
-    props.onStatusUpdate(gameStatuses.GAME_STARTED);
   };
 
   const newGameBtn = <NewGameBtn onClickHandler={newGameHandler} />;
@@ -53,33 +52,19 @@ const menu = props => {
       );
       break;
     case gameStatuses.GAME_OVER:
-      // Update high score and check if has beat any high scores.
-      let beatHighScore = false;
-      const highScores = JSON.parse(localStorage.getItem("highScore"));
-      if (props.score > Number(highScores.score1)) {
-        highScores.score3 = highScores.score2;
-        highScores.score2 = highScores.score1;
-        highScores.score1 = props.score;
-        beatHighScore = true;
-      } else if (props.score > Number(highScores.score2)) {
-        highScores.score3 = highScores.score2;
-        highScores.score2 = props.score;
-        beatHighScore = true;
-      } else if (props.score > Number(highScores.score3)) {
-        highScores.score3 = props.score;
-        beatHighScore = true;
-      }
-      // Update the local storage if a high score has been beat.
-      if (beatHighScore) {
-        localStorage.setItem("highScore", JSON.stringify(highScores));
-      }
+      const beatHighScore =
+        props.highScores.filter(highScore => highScore < props.score).length >
+        0;
 
       menuContents = (
         <Fragment>
           <h1 className={classes.Heading}>
             {beatHighScore ? "New High Score!" : "Game Over"}
           </h1>
-          <p>Score: {props.score}</p>
+          <p className={classes.Score}>
+            {props.score}
+            <span className={classes.Score__Label}>pnts</span>
+          </p>
           {newGameBtn}
         </Fragment>
       );
@@ -97,7 +82,8 @@ const mapStateToProps = state => {
     shapesDropped: state.gameStatus.shapesDropped,
     gameOver: state.gameStatus.gameOver,
     score: state.gameStatus.score,
-    status: state.gameStatus.status
+    status: state.gameStatus.status,
+    highScores: state.gameStatus.highScores
   };
 };
 
@@ -108,8 +94,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(actions.gameStatus_newGame());
       dispatch(actions.gameGrid_newGame());
     },
-    onShapeDropped: () => dispatch(actions.incrementShapesDropped()),
-    onStatusUpdate: newStatus => dispatch(actions.updateGameStatus(newStatus))
+    onShapeDropped: () => dispatch(actions.incrementShapesDropped())
   };
 };
 

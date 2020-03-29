@@ -15,5 +15,6 @@ export {
   pauseGame,
   resumeGame,
   newGame as gameStatus_newGame,
-  updateGameStatus
+  updateGameStatus,
+  updateHighScores
 } from "./gameStatus";

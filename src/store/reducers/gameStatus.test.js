@@ -10,7 +10,8 @@ const initialState = {
   multiplier: 2,
   paused: false,
   level: 1,
-  shapesDropped: 0
+  shapesDropped: 0,
+  highScores: [0, 0, 0]
 };
 
 for (let gridRow = 1; gridRow <= initialState.yMax; gridRow++) {
@@ -64,6 +65,14 @@ describe("GAME_OVER", () => {
 
   it("should set gameOver to true.", () => {
     expect(reducer.gameOver).toEqual(true);
+  });
+
+  it("should set paused to true.", () => {
+    expect(reducer.paused).toEqual(true);
+  });
+
+  it("should change status to GAME_OVER.", () => {
+    expect(reducer.status).toEqual(gameStatuses.GAME_OVER);
   });
 
   it("should not mutate the original object", () => {
@@ -185,6 +194,10 @@ describe("NEW_GAME", () => {
   it("should set playing to true.", () => {
     expect(reducer.playing).toEqual(true);
   });
+
+  it("should update the status to GAME_STARTED", () => {
+    expect(reducer.status).toEqual(gameStatuses.GAME_STARTED);
+  });
 });
 
 describe("UPDATE_GAME_STATUS", () => {
@@ -195,5 +208,16 @@ describe("UPDATE_GAME_STATUS", () => {
       status: gameStatuses.GAME_OVER
     });
     expect(reducer.status).toEqual(gameStatuses.GAME_OVER);
+  });
+});
+
+describe("UPDATE_HIGH_SCORES", () => {
+  it("should replace the hold high scores with new high scores.", () => {
+    const state = { highScores: [0, 1, 2] };
+    const reducer = gameStatusReducer(state, {
+      type: actionTypes.UPDATE_HIGH_SCORES,
+      highScores: [10, 20, 30]
+    });
+    expect(reducer.highScores).toEqual([10, 20, 30]);
   });
 });

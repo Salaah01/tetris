@@ -4,7 +4,6 @@ import React, { Component, Fragment } from "react";
 
 import * as actions from "../../store/actions/index";
 import SingleUnit from "./singleUnit";
-import { gameStatuses } from "../../store/reducers/gameStatus";
 
 class BaseShape extends Component {
   genericState = {
@@ -21,22 +20,28 @@ class BaseShape extends Component {
      * If this returns false, then stop the setInterval function and update the
      * state to cause another block to drop.
      */
+
     const dropBlockInterval = setInterval(() => {
       if (this.shouldBlockDrop()) {
         this.dropBlock();
       } else {
         clearInterval(dropBlockInterval);
-        // By quickly changing the state, can force a new update whilst
-        // avoiding an if check and dispatching an action to the store.
-        this.updateGridHandler();
-        this.props.onStopDropNewBlock();
-        if (!this.state.initDropHappened) {
+
+        // Check if a block has dropped from its initial point, if it is has
+        // not, then it is game over.
+        if (!this.state.initDropHappened && !this.props.gameOver) {
           this.props.onGameOver();
+        } else {
+          this.updateGridHandler();
+          this.props.onStopDropNewBlock();
         }
-        if (this.props.playing) {
+
+        // If the game is still in play and is not either paused or it is not
+        // game over.
+        if (this.props.playing && !this.props.gameOver) {
           this.props.onIncrementShapesDropped();
-          // Check if user should move onto the next level, and if so update the
-          // level.
+          // Check if user should move onto the next level, and if so update
+          // the level.
           this.props.onNextLevel(this.props.shapesDropped);
           this.props.onStartDropNewBlock();
         }
@@ -261,7 +266,7 @@ class BaseShape extends Component {
      * A block will only move in either direction providing there are no
      * obstructions, these include other blocks and walls.
      * Args:
-     *    direction: (String['left', 'right]) The direction of movement.
+     *    direction: (String['left', 'right']) The direction of movement.
      */
     let stepSizeX;
     if (direction === "left") {
@@ -342,7 +347,9 @@ export const mapStateToProps = state => {
     paused: state.gameStatus.paused,
     shapesDropped: state.gameStatus.shapesDropped,
     level: state.gameStatus.level,
-    speed: state.gameStatus.speed
+    speed: state.gameStatus.speed,
+    gameOver: state.gameStatus.gameOver,
+    status: state.gameStatus.status
   };
 };
 
@@ -354,11 +361,7 @@ export const mapDispatchToProps = dispatch => {
     onDeleteRow: () => dispatch(actions.deleteRow()),
     onUpdateScore: (triggerReason, xMax) =>
       dispatch(actions.updateScore(triggerReason, xMax)),
-    onGameOver: () => {
-      dispatch(actions.gameOver());
-      dispatch(actions.pauseGame());
-      dispatch(actions.updateGameStatus(gameStatuses.GAME_OVER));
-    },
+    onGameOver: () => dispatch(actions.gameOver()),
     onIncrementShapesDropped: () => dispatch(actions.incrementShapesDropped()),
     onNextLevel: shapesDropped => dispatch(actions.nextLevel(shapesDropped)),
     onIncrementLineCleared: () => dispatch(actions.incrementClearedLines())
