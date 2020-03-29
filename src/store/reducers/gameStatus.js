@@ -9,7 +9,9 @@
  *  resumeGame: Resumes the game by setting paused to false.
  *  incrementShapesDropped: Increments the number of shapes dropped.
  *  incrementClearedLines: Increments the number of lines cleared.
- *  newGame: Starts a new game by resetting the state to the intial state.
+ *  newGame: Starts a new game by resetting the state to the initial state.
+ *  updateStatus: Updates the game status which explains what state the game
+ *    is in. e.g: gameOver, newHighScore, gameNotStarted, etc.
  */
 
 // Third Party Imports
@@ -17,6 +19,12 @@
 // Local Imports
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../../corefunctions";
+
+export const gameStatuses = {
+  GAME_NOT_STARTED: "GAME_NOT_STARTED",
+  GAME_STARTED: "GAME_STARTED",
+  GAME_OVER: "GAME_OVER",
+};
 
 const initialState = {
   score: 0,
@@ -28,12 +36,13 @@ const initialState = {
   multiplier: 1,
   shapesDropped: 0,
   paused: true,
+  status: gameStatuses.GAME_NOT_STARTED,
   blocksForLevelCheckpoints: (() => {
-    const blocksArray = []
+    const blocksArray = [];
     for (let i = 2; i <= 99; i++) {
       blocksArray.push(Math.ceil((i * 5) ** 1.2));
     }
-    return blocksArray
+    return blocksArray;
   })()
 };
 
@@ -95,17 +104,22 @@ const incrementShapesDropped = state => {
 };
 
 const incrementClearedLines = state => {
-  /**Increaments linesCleared. */
+  /**Increments linesCleared. */
   return updateObject(state, { linesCleared: state.linesCleared + 1 });
 };
 
 const newGame = state => {
   /**Start a new game by updating the state to the initial state. */
-  return updateObject(state, {...initialState, playing: true, paused: false})
-}
+  return updateObject(state, { ...initialState, playing: true, paused: false });
+};
+
+const updateGameStatus = (state, action) => {
+  /**Updates the game status with a new status. */
+  return updateObject(state, { status: action.status });
+};
 
 const reducer = (state = initialState, action) => {
-  /**Dispatches the appropiate action depending on the action.type. */
+  /**Dispatches the appropriate action depending on the action.type. */
   switch (action.type) {
     case actionTypes.UPDATE_SCORE:
       return updateScore(state, action);
@@ -122,7 +136,9 @@ const reducer = (state = initialState, action) => {
     case actionTypes.INCREMENT_CLEARED_LINES:
       return incrementClearedLines(state);
     case actionTypes.NEW_GAME:
-      return newGame(state)
+      return newGame(state);
+    case actionTypes.UPDATE_GAME_STATUS:
+      return updateGameStatus(state, action);
     default:
       return state;
   }

@@ -9,23 +9,28 @@ import * as actions from "../../store/actions/index";
 class StatusBar extends Component {
   highScores = { score1: 0, score2: 0, score3: 0 };
   constructor(props) {
-    // let highScores = {};
     super(props);
-    const lsHighScores = localStorage.getItem("highScore");
+    this.updateHighScore();
+  }
+
+  updateHighScore = () => {
+    const lsHighScores = JSON.parse(localStorage.getItem("highScore"));
 
     if (lsHighScores) {
-      this.highScores = JSON.parse(localStorage.getItem("highScore"));
+      // this.highScores = JSON.parse(localStorage.getItem("highScore"));
       if (lsHighScores.score1) {
         this.highScores.score1 = lsHighScores.score1;
       }
       if (lsHighScores.score2) {
         this.highScores.score2 = lsHighScores.score2;
       }
-      if (lsHighScores.score2) {
-        this.highScores.score2 = lsHighScores.score2;
+      if (lsHighScores.score3) {
+        this.highScores.score3 = lsHighScores.score3;
       }
     }
-  }
+
+    localStorage.setItem("highScore", JSON.stringify(this.highScores));
+  };
 
   render() {
     return (

@@ -2,11 +2,13 @@
  *  updateScore: Action to update the current score.
  *  gameOver: Action to set the gameOver to true.
  *  pauseGame: Action to pause the game.
- *  resumeGaame: Action to resumee the game.
+ *  resumeGame: Action to resume the game.
  *  incrementShapesDropped: Action to increment shapesDropped.
  *  nextLevel: Action to progress onto the next level.
  *  incrementClearedLines: Action to increment the number of cleared line.
  *  newGame: Action to start a new game.
+ *  updateGameStatus: Action to update the current status of the game.
+ *    e.g: gameOver, newHighScore, gameNotStarted, etc.
  */
 
 // Third Party Imports
@@ -60,4 +62,11 @@ export const incrementClearedLines = () => {
 export const newGame = () => {
   /**Action to start a new game. */
   return { type: actionTypes.NEW_GAME };
-}
+};
+
+export const updateGameStatus = status => {
+  return {
+    type: actionTypes.UPDATE_GAME_STATUS,
+    status: status
+  };
+};

@@ -14,3 +14,4 @@ export const INCREMENT_CLEARED_LINES = "INCREMENT_CLEARED_LINES";
 export const SHOW_MENU = "SHOW_MENU";
 export const HIDE_MENU = "HIDE_MENU";
 export const NEW_GAME = "NEW_GAME";
+export const UPDATE_GAME_STATUS = "UPDATE_GAME_STATUS";

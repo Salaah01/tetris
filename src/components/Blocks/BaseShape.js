@@ -4,6 +4,7 @@ import React, { Component, Fragment } from "react";
 
 import * as actions from "../../store/actions/index";
 import SingleUnit from "./singleUnit";
+import { gameStatuses } from "../../store/reducers/gameStatus";
 
 class BaseShape extends Component {
   genericState = {
@@ -353,7 +354,11 @@ export const mapDispatchToProps = dispatch => {
     onDeleteRow: () => dispatch(actions.deleteRow()),
     onUpdateScore: (triggerReason, xMax) =>
       dispatch(actions.updateScore(triggerReason, xMax)),
-    onGameOver: () => dispatch(actions.gameOver()),
+    onGameOver: () => {
+      dispatch(actions.gameOver());
+      dispatch(actions.pauseGame());
+      dispatch(actions.updateGameStatus(gameStatuses.GAME_OVER));
+    },
     onIncrementShapesDropped: () => dispatch(actions.incrementShapesDropped()),
     onNextLevel: shapesDropped => dispatch(actions.nextLevel(shapesDropped)),
     onIncrementLineCleared: () => dispatch(actions.incrementClearedLines())
