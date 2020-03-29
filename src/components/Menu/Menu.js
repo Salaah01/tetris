@@ -1,62 +1,89 @@
 /**Main menu */
 
 // Third Party Imports
-import React from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 // Local Imports
 import classes from "./Menu.module.scss";
 import * as actions from "../../store/actions";
+import { gameStatuses } from "../../store/reducers/gameStatus";
+import NewGameBtn from "./HTMLElements/newGameButton";
+import ResumeGameBtn from "./HTMLElements/resumeGameButton";
 
 const menu = props => {
   let menuClasses;
   if (props.paused) {
-    menuClasses = [classes.Menu, classes.Open];
+    menuClasses = [classes.Menu, classes.Open].join(" ");
   } else {
-    menuClasses = [classes.Menu];
+    menuClasses = classes.Menu;
   }
 
   const newGameHandler = () => {
-    props.onNewGame()
-    props.onShapeDropped()
-  }
+    props.onNewGame();
+    props.onShapeDropped();
+  };
 
-  const newGameBtn = (
-    <button
-      className={`${classes.Btn} ${classes.BtnNewGame}`}
-      onClick={newGameHandler}
-    >
-      New Game
-    </button>
+  const newGameBtn = <NewGameBtn onClickHandler={newGameHandler} />;
+  const resumeGameBtn = (
+    <ResumeGameBtn
+      onClickHandler={props.onResumeGame}
+      gameStarted={props.shapesDropped}
+    />
   );
 
-  let resumeBtn = null;
-  if (props.shapesDropped) {
-    resumeBtn = (
-      <button
-        className={`${classes.Btn} ${classes.BtnResume}`}
-        onClick={props.onResumeGame}
-      >
-        Resume
-      </button>
-    );
+  let menuContents;
+  switch (props.status) {
+    case gameStatuses.GAME_NOT_STARTED:
+      menuContents = (
+        <Fragment>
+          <h1 className={classes.Heading}>Tetris</h1>
+          {newGameBtn}
+        </Fragment>
+      );
+      break;
+    case gameStatuses.GAME_STARTED:
+      menuContents = (
+        <Fragment>
+          <h1 className={classes.Heading}>Paused</h1>
+          {newGameBtn}
+          {resumeGameBtn}
+        </Fragment>
+      );
+      break;
+    case gameStatuses.GAME_OVER:
+      const beatHighScore =
+        props.highScores.filter(highScore => highScore < props.score).length >
+        0;
+
+      menuContents = (
+        <Fragment>
+          <h1 className={classes.Heading}>
+            {beatHighScore ? "New High Score!" : "Game Over"}
+          </h1>
+          <p className={classes.Score}>
+            {props.score}
+            <span className={classes.Score__Label}>pnts</span>
+          </p>
+          {newGameBtn}
+        </Fragment>
+      );
+      break;
+    default:
+      menuContents = null;
   }
 
-  return (
-    <div className={menuClasses.join(" ")}>
-      <h1 className={classes.Heading}>
-        {props.shapesDropped ? "Paused" : "Tetris"}
-      </h1>
-      {newGameBtn}
-      {resumeBtn}
-    </div>
-  );
+  return <div className={menuClasses}>{menuContents}</div>;
 };
 
 const mapStateToProps = state => {
   return {
     paused: state.gameStatus.paused,
-    shapesDropped: state.gameStatus.shapesDropped
+    shapesDropped: state.gameStatus.shapesDropped,
+    gameOver: state.gameStatus.gameOver,
+    score: state.gameStatus.score,
+    status: state.gameStatus.status,
+    highScores: state.gameStatus.highScores
   };
 };
 

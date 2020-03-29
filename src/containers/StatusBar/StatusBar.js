@@ -7,26 +7,6 @@ import classes from "./StatusBar.module.scss";
 import * as actions from "../../store/actions/index";
 
 class StatusBar extends Component {
-  highScores = { score1: 0, score2: 0, score3: 0 };
-  constructor(props) {
-    // let highScores = {};
-    super(props);
-    const lsHighScores = localStorage.getItem("highScore");
-
-    if (lsHighScores) {
-      this.highScores = JSON.parse(localStorage.getItem("highScore"));
-      if (lsHighScores.score1) {
-        this.highScores.score1 = lsHighScores.score1;
-      }
-      if (lsHighScores.score2) {
-        this.highScores.score2 = lsHighScores.score2;
-      }
-      if (lsHighScores.score2) {
-        this.highScores.score2 = lsHighScores.score2;
-      }
-    }
-  }
-
   render() {
     return (
       <div className={classes.StatusBar}>
@@ -40,15 +20,15 @@ class StatusBar extends Component {
           <div className={classes.HighScore__Body}>
             <p className={classes.HighScore__ScoreInfo}>
               <span>1:</span>
-              <span>{this.highScores.score1}</span>
+              <span>{this.props.highScores[0]}</span>
             </p>
             <p className={classes.HighScore__ScoreInfo}>
               <span>2:</span>
-              <span>{this.highScores.score2}</span>
+              <span>{this.props.highScores[1]}</span>
             </p>
             <p className={classes.HighScore__ScoreInfo}>
               <span>3:</span>
-              <span>{this.highScores.score3}</span>
+              <span>{this.props.highScores[2]}</span>
             </p>
           </div>
         </div>
@@ -61,8 +41,16 @@ const mapStateToProps = state => {
   return {
     score: state.gameStatus.score,
     level: state.gameStatus.level,
-    linesCleared: state.gameStatus.linesCleared
+    linesCleared: state.gameStatus.linesCleared,
+    highScores: state.gameStatus.highScores
   };
 };
 
-export default connect(mapStateToProps)(StatusBar);
+const mapDispatchToProps = dispatch => {
+  return {
+    onUpdateHighScore: highScores =>
+      dispatch(actions.updateHighScores(highScores))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusBar);

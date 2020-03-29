@@ -7,10 +7,6 @@ import classes from "./GameGrid.module.scss";
 import * as actions from "../../store/actions/index";
 import ShapeFactory from "../../components/Blocks/ShapesFactory";
 
-const newComponent = props => {
-  return <ShapeFactory random />;
-};
-
 const l = [];
 
 class GameGrid extends Component {
@@ -41,13 +37,13 @@ class GameGrid extends Component {
   };
 
   newComponent = () => {
-    return <ShapeFactory shape="ZShape" />;
+    return <ShapeFactory random />;
   };
 
   render() {
     let shape = l;
-    if (this.props.dropBlock) {
-      shape = newComponent();
+    if (this.props.dropBlock && !this.props.gameOver) {
+      shape = this.newComponent();
     }
 
     return (
@@ -71,7 +67,8 @@ const mapStateToProps = state => {
     dropBlock: state.gameGrid.dropBlock,
     grid: state.gameGrid.grid,
     xMax: state.gameGrid.xMax,
-    yMax: state.gameGrid.yMax
+    yMax: state.gameGrid.yMax,
+    gameOver: state.gameStatus.gameOver
   };
 };
 

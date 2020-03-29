@@ -1,6 +1,6 @@
-/**Unittests for the gameStatus module. */
+/**Unit tests for the gameStatus module. */
 
-import gameStatusReducer from "./gameStatus";
+import gameStatusReducer, { gameStatuses } from "./gameStatus";
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
@@ -10,14 +10,15 @@ const initialState = {
   multiplier: 2,
   paused: false,
   level: 1,
-  shapesDropped: 0
+  shapesDropped: 0,
+  highScores: [0, 0, 0]
 };
 
 for (let gridRow = 1; gridRow <= initialState.yMax; gridRow++) {
   initialState.grid[`row${gridRow}`] = Array(initialState.yMax).fill(false);
 }
 
-describe("updateScore", () => {
+describe("UPDATE_SCORE", () => {
   let state;
 
   beforeEach(() => {
@@ -54,7 +55,7 @@ describe("updateScore", () => {
   });
 });
 
-describe("gameOver", () => {
+describe("GAME_OVER", () => {
   const state = { ...initialState };
   const reducer = gameStatusReducer(state, { type: actionTypes.GAME_OVER });
 
@@ -66,12 +67,20 @@ describe("gameOver", () => {
     expect(reducer.gameOver).toEqual(true);
   });
 
+  it("should set paused to true.", () => {
+    expect(reducer.paused).toEqual(true);
+  });
+
+  it("should change status to GAME_OVER.", () => {
+    expect(reducer.status).toEqual(gameStatuses.GAME_OVER);
+  });
+
   it("should not mutate the original object", () => {
     expect(state).toEqual(initialState);
   });
 });
 
-describe("pauseGame", () => {
+describe("PAUSE_GAME", () => {
   it("should set paused to true.", () => {
     const state = { paused: false };
     const reducer = gameStatusReducer(state, { type: actionTypes.PAUSE_GAME });
@@ -79,7 +88,7 @@ describe("pauseGame", () => {
   });
 });
 
-describe("resumeGame", () => {
+describe("RESUME_GAME", () => {
   it("should set paused to false.", () => {
     const state = { paused: true };
     const reducer = gameStatusReducer(state, { type: actionTypes.RESUME_GAME });
@@ -87,7 +96,7 @@ describe("resumeGame", () => {
   });
 });
 
-describe("incrementShapesDropped", () => {
+describe("INCREMENT_SHAPES_DROPPED", () => {
   it("should increment the number of shapes dropped.", () => {
     const state = { shapesDropped: 0 };
     const reducer = gameStatusReducer(state, {
@@ -97,7 +106,7 @@ describe("incrementShapesDropped", () => {
   });
 });
 
-describe("nextLevel", () => {
+describe("NEXT_LEVEL", () => {
   let state;
   let reducer;
   beforeEach(() => {
@@ -154,7 +163,7 @@ describe("nextLevel", () => {
   });
 });
 
-describe("incrementClearedLines", () => {
+describe("INCREMENT_CLEARED_LINES", () => {
   it("should increment the clearedLine variable.", () => {
     const state = { linesCleared: 5 };
     const reducer = gameStatusReducer(state, {
@@ -164,26 +173,51 @@ describe("incrementClearedLines", () => {
   });
 });
 
-describe("newGame", () => {
+describe("NEW_GAME", () => {
   const state = {
-      shapesDropped: 20,
-      level: 999
-    }
-    const reducer = gameStatusReducer(state, {
-      type: actionTypes.NEW_GAME
-    })
+    shapesDropped: 20,
+    level: 999
+  };
+  const reducer = gameStatusReducer(state, {
+    type: actionTypes.NEW_GAME
+  });
 
   it("should reset the state to the initial state.", () => {
-    
-    expect(reducer.level).toEqual(initialState.level)
-    expect(reducer.shapesDropped).toEqual(initialState.shapesDropped)
-  })
-  
+    expect(reducer.level).toEqual(initialState.level);
+    expect(reducer.shapesDropped).toEqual(initialState.shapesDropped);
+  });
+
   it("should should set paused to false.", () => {
-    expect(reducer.paused).toEqual(false)
-  })
+    expect(reducer.paused).toEqual(false);
+  });
 
   it("should set playing to true.", () => {
-    expect(reducer.playing).toEqual(true)
-  })
-})
+    expect(reducer.playing).toEqual(true);
+  });
+
+  it("should update the status to GAME_STARTED", () => {
+    expect(reducer.status).toEqual(gameStatuses.GAME_STARTED);
+  });
+});
+
+describe("UPDATE_GAME_STATUS", () => {
+  it("should update the game status with a new status.", () => {
+    const state = { status: gameStatuses.GAME_NOT_STARTED };
+    const reducer = gameStatusReducer(state, {
+      type: actionTypes.UPDATE_GAME_STATUS,
+      status: gameStatuses.GAME_OVER
+    });
+    expect(reducer.status).toEqual(gameStatuses.GAME_OVER);
+  });
+});
+
+describe("UPDATE_HIGH_SCORES", () => {
+  it("should replace the hold high scores with new high scores.", () => {
+    const state = { highScores: [0, 1, 2] };
+    const reducer = gameStatusReducer(state, {
+      type: actionTypes.UPDATE_HIGH_SCORES,
+      highScores: [10, 20, 30]
+    });
+    expect(reducer.highScores).toEqual([10, 20, 30]);
+  });
+});
