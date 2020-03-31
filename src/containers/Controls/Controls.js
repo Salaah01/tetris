@@ -6,7 +6,10 @@ import { connect } from "react-redux";
 import classes from "./Controls.module.scss";
 import "../../assets/SCSS/arrows.scss";
 import * as actions from "../../store/actions/index";
-
+import * as musicMp3 from "../../assets/audio/Tetris_theme.mp3";
+import * as musicOgg from "../../assets/audio/Tetris_theme.ogg";
+import * as musicM4a from "../../assets/audio/Tetris_theme.m4a";
+import { pauseMusic } from "../../corefunctions";
 class Controls extends Component {
   moveLeftHandler = () => {
     /**Clicks the move left hidden button. */
@@ -34,6 +37,11 @@ class Controls extends Component {
     if (document.getElementById("rotate-btn")) {
       document.getElementById("rotate-btn").click();
     }
+  };
+
+  pauseHandler = () => {
+    pauseMusic();
+    this.props.pauseGame();
   };
 
   render() {
@@ -100,12 +108,19 @@ class Controls extends Component {
           </span>
         </div>
         <div
-          onClick={this.props.pauseGame}
+          onClick={this.pauseHandler}
           className={`${classes.Buttons} ${classes.PauseBtn}`}
         >
           <span>
             <i className="fa fa-pause"></i>
           </span>
+        </div>
+        <div style={{display: 'none'}}>
+          <audio controls loop play id="tetris-music">
+            <source src={musicOgg} type="audio/ogg" />
+            <source src={musicM4a} type="audio/m4a" />
+            <source src={musicMp3} type="audio/mp3" />
+          </audio>
         </div>
       </div>
     );

@@ -4,3 +4,4 @@
  */
 
 export { updateObject } from "./updateObject";
+export { playMusic, pauseMusic } from "./musicControls";

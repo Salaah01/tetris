@@ -5,6 +5,7 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 
 // Local Imports
+import { playMusic } from "../../corefunctions";
 import classes from "./Menu.module.scss";
 import * as actions from "../../store/actions";
 import { gameStatuses } from "../../store/reducers/gameStatus";
@@ -21,14 +22,24 @@ const menu = props => {
   }
 
   const newGameHandler = () => {
+    /**Starts a new game. */
+    playMusic()
     props.onNewGame();
     props.onShapeDropped();
   };
 
+  const resumeGameHandler = () => {
+    /**Resumes a paused game. */
+    playMusic()
+    props.onResumeGame();
+
+  }
+
+
   const newGameBtn = <NewGameBtn onClickHandler={newGameHandler} />;
   const resumeGameBtn = (
     <ResumeGameBtn
-      onClickHandler={props.onResumeGame}
+      onClickHandler={resumeGameHandler}
       gameStarted={props.shapesDropped}
     />
   );
