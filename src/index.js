@@ -3,13 +3,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
+import { StyleRoot } from "radium";
 
 // Local Imports
 import * as serviceWorker from "./serviceWorker";
+import "./assets/SCSS/icons.scss";
 import "./index.scss";
 import App from "./App";
 import gameGridReducer from "./store/reducers/gameGrid";
-import gameStatusReducer from './store/reducers/gameStatus'
+import gameStatusReducer from "./store/reducers/gameStatus";
 
 const rootReducer = combineReducers({
   gameGrid: gameGridReducer,
@@ -23,7 +25,9 @@ const store = createStore(
 
 const app = (
   <Provider store={store}>
-    <App />
+    <StyleRoot id='app-container'>
+      <App />
+    </StyleRoot>
   </Provider>
 );
 

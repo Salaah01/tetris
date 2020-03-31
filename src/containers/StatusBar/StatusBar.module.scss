@@ -4,32 +4,84 @@
   color: #fff;
   padding: 25px;
   justify-self: start;
-  width: 300px;
   text-align: center;
   font-family: "Lato", sans-serif;
   letter-spacing: 1px;
   font-weight: 300;
-  font-size: 40px;
   margin: 30px;
   padding: 10px;
-  height: 75vh;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  font-size: 3rem;
+  width: 53vh;
+  max-width: 45vw;
+  height: 80vh;
+  max-height: 90vw;
 }
 
 .GameInfo {
+  &__Heading {
+    font-family: "Roboto Mono", monospace;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    letter-spacing: 0.5rem;
 
-  & > p {
-    margin-bottom: 0.7rem;
+    @media screen and (max-width: 600px) {
+      font-size: 4rem;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 3.5rem;
+    }
+
+    @media screen and (max-width: 400px) {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media screen and (max-width: 360px) {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  &__Body {
+    margin-bottom: 1rem;
+    font-size: 3rem;
+
+    @media screen and (max-width: 600px) {
+      font-size: 2.5rem;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 2rem;
+    }
+
+    @media screen and (max-width: 400px) {
+      font-size: 1.75rem;
+    }
+
+    @media screen and (max-width: 360px) {
+      font-size: 1.6rem;
+    }
   }
 }
 
 .HighScore {
-  background-color: rgba(#424344, 0.75);
-  padding: 3rem 0;
+  background-color: rgba(#3a0000, 0.6);
+  padding: 3rem 2rem;
   border-radius: 1rem;
+
+  @media screen and (max-width: 500px) {
+    padding: 2rem .5rem;
+    border-radius: .5rem;
+  }
+
+  @media screen and (max-width: 360px) {
+    padding: 1rem .5rem;
+    border-radius: .5rem;
+  }
 
   &__Heading {
     font-size: 2rem;
@@ -37,6 +89,25 @@
     margin-bottom: 3rem;
     letter-spacing: 2px;
     font-weight: 400;
+
+    @media screen and (max-width: 600px) {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    @media screen and (max-width: 500px) {
+      margin-bottom: 1.5rem;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 1.6rem;
+    }
+
+    @media screen and (max-width: 360px) {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+
   }
 
   &__Body {
@@ -50,5 +121,23 @@
     padding-bottom: 0.5rem;
     margin-bottom: 0.5rem;
     font-size: 2.25rem;
+
+    @media screen and (max-width: 600px) {
+      font-size: 2rem;
+      margin-bottom: .25rem;
+      padding-bottom: .25rem;
+    }
+
+    @media screen and (max-width: 500px) {
+      font-size: 1.75rem;
+    }
+
+    @media screen and (max-width: 400px) {
+      font-size: 1.4rem;
+    }
+
+    @media screen and (max-width: 360px) {
+      font-size: 1.2rem;
+    }
   }
 }

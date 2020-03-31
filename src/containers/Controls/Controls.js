@@ -63,38 +63,50 @@ class Controls extends Component {
 
     return (
       <div className={classes.Controls}>
-        <button
+        <div
           id="ctrl-move-left"
           onClick={this.moveLeftHandler}
-          className={`${classes.Buttons} ${classes.LeftBtn}`}
+          className={classes.Buttons}
         >
-          <span className="arrow arrow-left"></span>
-        </button>
-        <button
+          <span>
+            <i className="fa fa-arrow-left"></i>
+          </span>
+        </div>
+        <div
           id="ctrl-move-right"
           onClick={this.moveRightHandler}
-          className={`${classes.Buttons} ${classes.RightBtn}`}
+          className={classes.Buttons}
         >
-          <span className="arrow arrow-right"></span>
-        </button>
-        <button
+          <span>
+            <i className="fa fa-arrow-right"></i>
+          </span>
+        </div>
+        <div
           id="ctrl-move-down"
           onClick={this.moveDownHandler}
-          className={`${classes.Buttons} ${classes.DownBtn}`}
+          className={classes.Buttons}
         >
-          <span className="arrow arrow-down"></span>
-        </button>
-        <button
+          <span>
+            <i className="fa fa-arrow-down"></i>
+          </span>
+        </div>
+        <div
           id="ctrl-rotate"
           onClick={this.rotateHandler}
-          className={`${classes.Buttons} ${classes.RotateBtn}`}
+          className={classes.Buttons}
         >
-          <span class="arrow arrow-up curve-right">
-            <span class="curve"></span>
+          <span>
+            <i className="fa fa-sync-alt"></i>
           </span>
-        </button>
-        <button onClick={this.props.pauseGame} className={`${classes.Buttons} ${classes.PauseBtn}`}>Pause Game</button>
-        <button onClick={this.props.resumeGame} className={`${classes.Buttons} ${classes.ResumeBtn}`}>Resume Game</button>
+        </div>
+        <div
+          onClick={this.props.pauseGame}
+          className={`${classes.Buttons} ${classes.PauseBtn}`}
+        >
+          <span>
+            <i className="fa fa-pause"></i>
+          </span>
+        </div>
       </div>
     );
   }
