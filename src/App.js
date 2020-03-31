@@ -1,8 +1,9 @@
 // Third Party Imports
 import React, { Component, Fragment } from "react";
+import { StyleRoot } from "radium";
 
 // Local imports
-import BackDrop from './components/UI/Backdrop/Backdrop'
+import BackDrop from "./components/UI/Backdrop/Backdrop";
 import Menu from "./components/Menu/Menu";
 import GridGame from "./containers/GameGrid/GameGrid";
 import StatusBar from "./containers/StatusBar/StatusBar";

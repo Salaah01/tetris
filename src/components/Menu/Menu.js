@@ -10,6 +10,7 @@ import * as actions from "../../store/actions";
 import { gameStatuses } from "../../store/reducers/gameStatus";
 import NewGameBtn from "./HTMLElements/newGameButton";
 import ResumeGameBtn from "./HTMLElements/resumeGameButton";
+import * as controlsImg from "../../assets/images/controls.png";
 
 const menu = props => {
   let menuClasses;
@@ -38,6 +39,11 @@ const menu = props => {
       menuContents = (
         <Fragment>
           <h1 className={classes.Heading}>Tetris</h1>
+          <img
+            className={classes.ControlsImg}
+            src={controlsImg}
+            alt="Game controls"
+          />
           {newGameBtn}
         </Fragment>
       );
@@ -63,7 +69,7 @@ const menu = props => {
           </h1>
           <p className={classes.Score}>
             {props.score}
-            <span className={classes.Score__Label}>pnts</span>
+            <span className={classes.Score__Label}>pts</span>
           </p>
           {newGameBtn}
         </Fragment>

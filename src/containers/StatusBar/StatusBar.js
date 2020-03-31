@@ -1,6 +1,7 @@
 // Third Party Imports
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Radium from "radium";
 
 // Local Imports
 import classes from "./StatusBar.module.scss";
@@ -8,12 +9,20 @@ import * as actions from "../../store/actions/index";
 
 class StatusBar extends Component {
   render() {
+    const style = {
+      maxWidth: `${5.3 * this.props.xMax}vh`,
+      width: '100%',
+      marginLeft: '-1rem'
+
+    };
+
     return (
-      <div className={classes.StatusBar}>
+      <div className={classes.StatusBar} style={style}>
         <div className={classes.GameInfo}>
-          <p className={classes.BodyText}>Level: {this.props.level}</p>
-          <p className={classes.BodyText}>Score: {this.props.score}</p>
-          <p className={classes.BodyText}>Lines: {this.props.linesCleared}</p>
+          <h2 className={classes.GameInfo__Heading}>Tetris</h2>
+          <p className={classes.GameInfo__Body}>Level: {this.props.level}</p>
+          <p className={classes.GameInfo__Body}>Score: {this.props.score}</p>
+          <p className={classes.GameInfo__Body}>Lines: {this.props.linesCleared}</p>
         </div>
         <div className={classes.HighScore}>
           <h2 className={classes.HighScore__Heading}>High Scores:</h2>
@@ -42,7 +51,8 @@ const mapStateToProps = state => {
     score: state.gameStatus.score,
     level: state.gameStatus.level,
     linesCleared: state.gameStatus.linesCleared,
-    highScores: state.gameStatus.highScores
+    highScores: state.gameStatus.highScores,
+    xMax: state.gameGrid.xMax
   };
 };
 
@@ -53,4 +63,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(StatusBar);
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(StatusBar));

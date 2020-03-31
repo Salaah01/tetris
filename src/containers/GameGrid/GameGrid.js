@@ -1,6 +1,7 @@
 // Third Party Imports
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Radium from "radium";
 
 // Local Imports
 import classes from "./GameGrid.module.scss";
@@ -46,15 +47,18 @@ class GameGrid extends Component {
       shape = this.newComponent();
     }
 
+    const style = {
+      gridTemplateRows: `repeat(${this.props.yMax}, [row] calc(100%/${this.props.yMax}))`,
+      gridTemplateColumns: `repeat(${this.props.xMax}, [col] calc(100% / ${this.props.xMax}))`,
+      // width: `${45 * this.props.xMax}px`,
+      // height: `${33.75 * this.props.yMax}px`,
+      // width: `${5.3 * this.props.xMax}vh`,
+      // height: `${4 * this.props.yMax}vh`
+
+    };
+
     return (
-      <div
-        className={classes.GameGrid}
-        style={{
-          gridTemplateRows: `repeat(${this.props.yMax}, [row] calc(100%/${this.props.yMax}))`,
-          gridTemplateColumns: `repeat(${this.props.xMax}, [col] calc(100% / ${this.props.xMax}))`,
-          width: `calc(45px * ${this.props.xMax})`
-        }}
-      >
+      <div className={classes.GameGrid} style={style}>
         {this.materialiseGrid()}
         {shape}
       </div>
@@ -79,4 +83,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GameGrid);
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(GameGrid));
