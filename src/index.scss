@@ -29,7 +29,7 @@ button {
       rgba(15, 78, 255, 0.28),
       rgba(253, 50, 50, 0.69)
     ),
-    url(assets/bg.jpg);
+    url(assets/images/bg.jpg);
   background-size: cover;
   height: 100vh;
   width: 100vw;
@@ -39,7 +39,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2, 50vw);
 
-  @media screen and (max-width: 800px){
+  @media screen and (max-width: 800px) {
     grid-template-columns: 55vw 45vw;
   }
 }
