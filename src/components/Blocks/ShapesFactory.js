@@ -22,6 +22,7 @@ class ShapeFactory extends Component {
 
   render() {
     const coreProps = {
+      key: this.props.key,
       col: this.props.col,
       row: this.props.row,
       colour: this.block_colour()

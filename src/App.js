@@ -1,6 +1,5 @@
 // Third Party Imports
 import React, { Component, Fragment } from "react";
-import { StyleRoot } from "radium";
 
 // Local imports
 import BackDrop from "./components/UI/Backdrop/Backdrop";

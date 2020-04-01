@@ -304,7 +304,7 @@ class BaseShape extends Component {
     /**Renders the component. */
     const blockUnits = this.state.shape.map((blockUnit, idx) => (
       <SingleUnit
-        key={idx}
+        key={`${idx}_${blockUnit.x}_${blockUnit.y}`}
         col={blockUnit.x}
         row={blockUnit.y}
         colour={this.props.colour}
@@ -312,7 +312,7 @@ class BaseShape extends Component {
     ));
     return (
       <Fragment>
-        <div style={{ display: "none" }}>
+        <div style={{ display: "none" }} key={this.props.key}>
           <button id="move-left-btn" onClick={this.moveLeftHandler}>
             Left
           </button>

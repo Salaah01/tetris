@@ -1,3 +1,8 @@
+# Tetris
+
+Tetris game created using [React](https://reactjs.org/) and [Redux](https://redux.js.org/).
+The game is hosted using firebase [here](https://tetris-3a18a.firebaseapp.com/).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

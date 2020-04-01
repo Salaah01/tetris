@@ -25,7 +25,7 @@ const store = createStore(
 
 const app = (
   <Provider store={store}>
-    <StyleRoot id='app-container'>
+    <StyleRoot id="app-container">
       <App />
     </StyleRoot>
   </Provider>

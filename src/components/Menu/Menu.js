@@ -49,7 +49,7 @@ const menu = props => {
     case gameStatuses.GAME_NOT_STARTED:
       menuContents = (
         <Fragment>
-          <h1 className={classes.Heading}>Tetris</h1>
+          <h1 className={classes.Heading} id='menu-title'>Tetris</h1>
           <img
             className={classes.ControlsImg}
             src={controlsImg}
@@ -62,7 +62,7 @@ const menu = props => {
     case gameStatuses.GAME_STARTED:
       menuContents = (
         <Fragment>
-          <h1 className={classes.Heading}>Paused</h1>
+          <h1 className={classes.Heading} id='menu-title'>Paused</h1>
           {newGameBtn}
           {resumeGameBtn}
         </Fragment>
@@ -75,7 +75,7 @@ const menu = props => {
 
       menuContents = (
         <Fragment>
-          <h1 className={classes.Heading}>
+          <h1 className={classes.Heading} id='menu-title'>
             {beatHighScore ? "New High Score!" : "Game Over"}
           </h1>
           <p className={classes.Score}>

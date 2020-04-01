@@ -8,8 +8,6 @@ import classes from "./GameGrid.module.scss";
 import * as actions from "../../store/actions/index";
 import ShapeFactory from "../../components/Blocks/ShapesFactory";
 
-const l = [];
-
 class GameGrid extends Component {
   materialiseGrid = () => {
     let gridElems = [];
@@ -38,29 +36,19 @@ class GameGrid extends Component {
   };
 
   newComponent = () => {
-    return <ShapeFactory random />;
+    return <ShapeFactory random key={this.props.dropBlock} />;
   };
 
   render() {
-    let shape = l;
-    if (this.props.dropBlock && !this.props.gameOver) {
-      shape = this.newComponent();
-    }
-
     const style = {
       gridTemplateRows: `repeat(${this.props.yMax}, [row] calc(100%/${this.props.yMax}))`,
-      gridTemplateColumns: `repeat(${this.props.xMax}, [col] calc(100% / ${this.props.xMax}))`,
-      // width: `${45 * this.props.xMax}px`,
-      // height: `${33.75 * this.props.yMax}px`,
-      // width: `${5.3 * this.props.xMax}vh`,
-      // height: `${4 * this.props.yMax}vh`
-
+      gridTemplateColumns: `repeat(${this.props.xMax}, [col] calc(100% / ${this.props.xMax}))`
     };
 
     return (
-      <div className={classes.GameGrid} style={style}>
+      <div className={classes.GameGrid} style={style} key={this.props.dropBlock}>
         {this.materialiseGrid()}
-        {shape}
+        {this.newComponent()}
       </div>
     );
   }

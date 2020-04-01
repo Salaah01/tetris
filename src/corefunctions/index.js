@@ -5,3 +5,4 @@
 
 export { updateObject } from "./updateObject";
 export { playMusic, pauseMusic } from "./musicControls";
+export { deepCopyGrid } from "./deepCopyGrid";

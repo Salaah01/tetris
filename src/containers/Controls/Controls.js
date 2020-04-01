@@ -115,7 +115,7 @@ class Controls extends Component {
             <i className="fa fa-pause"></i>
           </span>
         </div>
-        <div style={{display: 'none'}}>
+        <div style={{ display: "none" }}>
           <audio controls loop play id="tetris-music">
             <source src={musicOgg} type="audio/ogg" />
             <source src={musicM4a} type="audio/m4a" />
