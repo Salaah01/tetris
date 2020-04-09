@@ -87,13 +87,15 @@ const updateScore = (state, action) => {
 
 const nextLevel = (state, action) => {
   /**Progress onto the next level if action.shapesDropped is equal to the first
-   * element in blocksForLevelCheckpoints.
+   * element in blocksForLevelCheckpoints. As part of progressing to the next
+   * level the speed is also updated.
    */
   if (action.shapesDropped === state.blocksForLevelCheckpoints[0]) {
     return updateObject(state, {
       level: state.level + 1,
       multiplier: state.multiplier + state.level / 10,
       speed: Math.max(Math.floor(state.speed / (1 + state.level / 100)), 0),
+      speed: Math.max(Math.floor(state.speed / (1 + state.level  ** (1  + state.level / 10) / 100)), 0),
       blocksForLevelCheckpoints: state.blocksForLevelCheckpoints.slice(1)
     });
   } else {
