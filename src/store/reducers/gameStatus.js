@@ -27,7 +27,7 @@ export const gameStatuses = {
    */
   GAME_NOT_STARTED: "GAME_NOT_STARTED",
   GAME_STARTED: "GAME_STARTED",
-  GAME_OVER: "GAME_OVER"
+  GAME_OVER: "GAME_OVER",
 };
 
 const getHighScores = () => {
@@ -64,7 +64,7 @@ const initialState = {
       blocksArray.push(Math.ceil((i * 5) ** 1.2));
     }
     return blocksArray;
-  })()
+  })(),
 };
 
 const updateScore = (state, action) => {
@@ -81,7 +81,7 @@ const updateScore = (state, action) => {
     );
   }
   return updateObject(state, {
-    score: Math.ceil(state.score + baseScore * state.multiplier)
+    score: Math.ceil(state.score + baseScore * state.multiplier),
   });
 };
 
@@ -94,16 +94,20 @@ const nextLevel = (state, action) => {
     return updateObject(state, {
       level: state.level + 1,
       multiplier: state.multiplier + state.level / 10,
-      speed: Math.max(Math.floor(state.speed / (1 + state.level / 100)), 0),
-      speed: Math.max(Math.floor(state.speed / (1 + state.level  ** (1  + state.level / 10) / 100)), 0),
-      blocksForLevelCheckpoints: state.blocksForLevelCheckpoints.slice(1)
+      speed: Math.max(
+        Math.floor(
+          state.speed / (1 + state.level ** (1 + state.level / 10) / 100)
+        ),
+        0
+      ),
+      blocksForLevelCheckpoints: state.blocksForLevelCheckpoints.slice(1),
     });
   } else {
     return state;
   }
 };
 
-const gameOver = state => {
+const gameOver = (state) => {
   /**Tells the system that it is game over and update the local storage if the
    * user beats a high score.
    */
@@ -130,38 +134,38 @@ const gameOver = state => {
     playing: false,
     paused: true,
     status: gameStatuses.GAME_OVER,
-    highScores: newHighScores
+    highScores: newHighScores,
   });
 };
 
-const pauseGame = state => {
+const pauseGame = (state) => {
   /**Pauses the game. */
   return updateObject(state, { paused: true });
 };
 
-const resumeGame = state => {
+const resumeGame = (state) => {
   /**Resumes the game. */
   return updateObject(state, { paused: false });
 };
 
-const incrementShapesDropped = state => {
+const incrementShapesDropped = (state) => {
   /**Increments shapesDropped. */
   return updateObject(state, { shapesDropped: state.shapesDropped + 1 });
 };
 
-const incrementClearedLines = state => {
+const incrementClearedLines = (state) => {
   /**Increments linesCleared. */
   return updateObject(state, { linesCleared: state.linesCleared + 1 });
 };
 
-const newGame = state => {
+const newGame = (state) => {
   /**Start a new game by updating the state to the initial state. */
   return updateObject(state, {
     ...initialState,
     playing: true,
     paused: false,
     highScores: getHighScores(),
-    status: gameStatuses.GAME_STARTED
+    status: gameStatuses.GAME_STARTED,
   });
 };
 
