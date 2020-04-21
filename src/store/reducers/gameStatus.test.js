@@ -132,7 +132,7 @@ describe("NEXT_LEVEL", () => {
   });
 
   it("should update the speed", () => {
-    expect(reducer.speed).toEqual(476);
+    expect(reducer.speed).toEqual(449);
   });
 
   it("should not mutate the original state", () => {
