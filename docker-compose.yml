@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  tetris:
+    image: public.ecr.aws/d0r4z6q1/tetris:latest
+    restart: always
+    ports:
+      - 32773:80
